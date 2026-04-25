@@ -56,13 +56,13 @@
                   "status": "approved"
                 },
                 "frontend": {
-                  "status": "not_started"
+                  "status": "approved"
                 },
                 "testing": {
-                  "status": "not_started"
+                  "status": "approved"
                 }
               },
-              "status": "in_progress"
+              "status": "approved"
             }
           ],
           "tech_stack": {
