@@ -214,8 +214,8 @@ def search_listings(
     status_value: str | None = Query(default="active", alias="status"),
 ) -> SearchResultsResponse:
     _normalize_status(status_value)
-    if not city:
-        raise _http_error(status.HTTP_400_BAD_REQUEST, "INVALID_CITY", "We could not run this search. Check the city name and try again.")
+    if city is None or not city.strip():
+        raise _http_error(status.HTTP_400_BAD_REQUEST, "INVALID_CITY", "Please enter a city to search.")
 
     listings = _active_listings(db)
     listings = _filter_city(listings, city)

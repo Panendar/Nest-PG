@@ -1,0 +1,238 @@
+{
+  "project": {
+    "name": "My_PG",
+    "slug": "my-pg",
+    "project_root": "E:\\Projects\\My_PG",
+    "docs_root": "E:\\Projects\\My_PG\\docs",
+    "created_at": "2026-04-22T08:16:42.462231+00:00"
+  },
+  "modules": [
+    {
+      "name": "User",
+      "slug": "user",
+      "priority": "HIGH",
+      "description": "User page where he can see all the PG's and contact them",
+      "stages": {
+        "prep": {
+          "requirements": {
+            "status": "approved"
+          },
+          "user_flows": {
+            "status": "approved"
+          },
+          "design_system": {
+            "status": "approved"
+          },
+          "content": {
+            "status": "approved"
+          },
+          "validation": {
+            "status": "approved"
+          },
+          "module_md": {
+            "status": "approved"
+          }
+        },
+        "build": {
+          "foundation": {
+            "status": "approved"
+          },
+          "tranches": [
+            {
+              "id": "t-001",
+              "name": "search",
+              "features": [
+                "filter-and-sort-results",
+                "nearby-radius-search",
+                "search-by-city",
+                "listing-detail-view",
+                "compare-listings"
+              ],
+              "steps": {
+                "database": {
+                  "status": "approved"
+                },
+                "backend": {
+                  "status": "approved"
+                },
+                "frontend": {
+                  "status": "not_started"
+                },
+                "testing": {
+                  "status": "not_started"
+                }
+              },
+              "status": "in_progress"
+            }
+          ],
+          "tech_stack": {
+            "status": "approved"
+          },
+          "database": {
+            "status": "approved"
+          },
+          "api": {
+            "status": "approved"
+          },
+          "claude_md": {
+            "status": "approved"
+          },
+          "releases_unlocked": true,
+          "tranches_unlocked": true
+        },
+        "post": {
+          "backup": {
+            "status": "not_started"
+          },
+          "monitoring": {
+            "status": "not_started"
+          },
+          "security": {
+            "status": "not_started"
+          },
+          "cicd": {
+            "status": "not_started"
+          },
+          "support": {
+            "status": "not_started"
+          },
+          "audit": {
+            "status": "not_started"
+          },
+          "scalability": {
+            "status": "not_started"
+          }
+        }
+      },
+      "features": [
+        {
+          "slug": "search-by-city",
+          "name": "Search BY City",
+          "description": "Users can enter a city and get relevant PG listings quickly.",
+          "priority": "HIGH"
+        },
+        {
+          "slug": "nearby-radius-search",
+          "name": "Nearby Radius Search",
+          "description": "Users can use current location and a selected radius to find PGs near them.",
+          "priority": "HIGH"
+        },
+        {
+          "slug": "filter-and-sort-results",
+          "name": "Filter and Sort Results",
+          "description": "Users can refine results by rent range, room type, amenities, and sort by relevance or newest.",
+          "priority": "HIGH"
+        },
+        {
+          "slug": "listing-detail-view",
+          "name": "Listing Detail View",
+          "description": "Users can open a listing to see photos, price, amenities, availability, and location context.",
+          "priority": "HIGH"
+        },
+        {
+          "slug": "compare-listings",
+          "name": "Compare Listings",
+          "description": "Users can compare multiple shortlisted PGs side-by-side before deciding.",
+          "priority": "MEDIUM"
+        },
+        {
+          "slug": "contact-owner-from-listing",
+          "name": "Contact Owner from Listing",
+          "description": "Users can send an inquiry directly to the owner from the listing detail page.",
+          "priority": "MEDIUM"
+        },
+        {
+          "slug": "inquiry-confirmation-and-status",
+          "name": "Inquiry Confirmation and Status",
+          "description": "Users get clear confirmation that inquiry was sent and can view basic status (sent/owner responded)",
+          "priority": "MEDIUM"
+        },
+        {
+          "slug": "empty-state-recovery",
+          "name": "Empty State Recovery",
+          "description": "When no listings match, users are guided with suggested actions (change city, widen radius, clear filters).",
+          "priority": "MEDIUM"
+        },
+        {
+          "slug": "saved-listings-optional",
+          "name": "Saved Listings (Optional)",
+          "description": "Users can bookmark PGs to revisit later.",
+          "priority": "MEDIUM"
+        },
+        {
+          "slug": "search-history-recent-searches-optional",
+          "name": "Search History / Recent Searches (Optional)",
+          "description": "Users can quickly rerun recent city/radius searches.",
+          "priority": "LOW"
+        }
+      ]
+    },
+    {
+      "name": "Owner page",
+      "slug": "owner-page",
+      "priority": "HIGH",
+      "description": "The owner can add their PG's photos, details to website",
+      "stages": {
+        "prep": {
+          "requirements": {
+            "status": "not_started"
+          },
+          "user_flows": {
+            "status": "not_started"
+          },
+          "design_system": {
+            "status": "not_started"
+          },
+          "content": {
+            "status": "not_started"
+          },
+          "validation": {
+            "status": "not_started"
+          }
+        },
+        "build": {
+          "foundation": {
+            "status": "not_started"
+          },
+          "tranches": []
+        },
+        "post": {
+          "backup": {
+            "status": "not_started"
+          },
+          "monitoring": {
+            "status": "not_started"
+          },
+          "security": {
+            "status": "not_started"
+          },
+          "cicd": {
+            "status": "not_started"
+          },
+          "support": {
+            "status": "not_started"
+          },
+          "audit": {
+            "status": "not_started"
+          },
+          "scalability": {
+            "status": "not_started"
+          }
+        }
+      },
+      "features": []
+    }
+  ],
+  "focus_module": "user",
+  "solution": {
+    "solution": {
+      "status": "approved"
+    },
+    "solution_personas": {
+      "status": "approved"
+    },
+    "solution_context": {
+      "status": "approved"
+    }
+  }
+}

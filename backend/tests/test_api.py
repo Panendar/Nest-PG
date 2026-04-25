@@ -2,6 +2,7 @@ from sqlalchemy import create_engine, select
 from sqlalchemy.orm import Session, sessionmaker
 from fastapi.testclient import TestClient
 
+from app.core.config import settings
 from app.db.base import Base
 from app.db.models import PgListing, User
 from app.db.seed import seed_minimum_data
@@ -14,6 +15,7 @@ def _build_test_client(tmp_path, monkeypatch) -> TestClient:
     Base.metadata.create_all(bind=engine)
 
     monkeypatch.setattr("app.db.session.SessionLocal", testing_session_local)
+    monkeypatch.setattr("app.db.seed.SessionLocal", testing_session_local)
     seed_minimum_data()
 
     session = testing_session_local()
@@ -49,7 +51,7 @@ def _build_test_client(tmp_path, monkeypatch) -> TestClient:
 def _token_headers(client: TestClient) -> dict[str, str]:
     response = client.post(
         "/api/v1/auth/token",
-        json={"email": "user@example.com", "password": "change-me"},
+        json={"email": settings.default_user_email, "password": settings.default_user_password},
     )
     assert response.status_code == 200, response.text
     return {"Authorization": f"Bearer {response.json()['access_token']}"}
@@ -60,7 +62,7 @@ def test_login_returns_tokens(tmp_path, monkeypatch):
 
     response = client.post(
         "/api/v1/auth/token",
-        json={"email": "user@example.com", "password": "change-me"},
+        json={"email": settings.default_user_email, "password": settings.default_user_password},
     )
 
     assert response.status_code == 200
@@ -76,7 +78,7 @@ def test_login_rejects_invalid_password(tmp_path, monkeypatch):
 
     response = client.post(
         "/api/v1/auth/token",
-        json={"email": "user@example.com", "password": "wrong-password"},
+        json={"email": settings.default_user_email, "password": "wrong-password"},
     )
 
     assert response.status_code == 401
@@ -91,7 +93,7 @@ def test_me_returns_authenticated_user(tmp_path, monkeypatch):
 
     assert response.status_code == 200
     payload = response.json()
-    assert payload["email"] == "user@example.com"
+    assert payload["email"] == settings.default_user_email
     assert payload["role"] == "user"
     assert payload["is_active"] is True
 
