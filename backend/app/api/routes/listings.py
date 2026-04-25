@@ -257,20 +257,6 @@ def nearby_listings(
     return _paginate(scored, page, page_size)
 
 
-@router.get("/{listing_id}", response_model=ListingDetailResponse)
-def get_listing(
-    listing_id: str,
-    _current_user: dict = Depends(require_roles(["user"])),
-    db: Session = Depends(get_db_session),
-) -> ListingDetailResponse:
-    listing = db.scalar(select(PgListing).where(PgListing.id == listing_id))
-    if not listing:
-        raise _http_error(status.HTTP_404_NOT_FOUND, "NOT_FOUND", "This listing is no longer available. Please return to search results.")
-    if not listing.is_active:
-        raise _http_error(status.HTTP_410_GONE, "GONE", "This listing is no longer accepting inquiries. You can browse other options.")
-    return _detail_payload(listing)
-
-
 @router.get("/compare", response_model=CompareResultsResponse)
 def compare_listings(
     _current_user: dict = Depends(require_roles(["user"])),
@@ -295,3 +281,17 @@ def compare_listings(
         listings.append(listing)
 
     return CompareResultsResponse(items=[_compare_payload(listing) for listing in listings])
+
+
+@router.get("/{listing_id}", response_model=ListingDetailResponse)
+def get_listing(
+    listing_id: str,
+    _current_user: dict = Depends(require_roles(["user"])),
+    db: Session = Depends(get_db_session),
+) -> ListingDetailResponse:
+    listing = db.scalar(select(PgListing).where(PgListing.id == listing_id))
+    if not listing:
+        raise _http_error(status.HTTP_404_NOT_FOUND, "NOT_FOUND", "This listing is no longer available. Please return to search results.")
+    if not listing.is_active:
+        raise _http_error(status.HTTP_410_GONE, "GONE", "This listing is no longer accepting inquiries. You can browse other options.")
+    return _detail_payload(listing)

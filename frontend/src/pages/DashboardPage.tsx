@@ -163,7 +163,7 @@ export function DashboardPage() {
     const sortValue = searchParams.get("sort") ?? (isNearby ? "nearest" : "relevance");
     const radiusKm = readOptionalNumber(searchParams.get("radius_km"));
 
-    if (isNearby && (!locationContext || radiusKm === null)) {
+    if (isNearby && (!nearbyLocation || radiusKm === null)) {
       setResults(null);
       return;
     }
