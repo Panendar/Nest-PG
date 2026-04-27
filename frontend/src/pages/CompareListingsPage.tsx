@@ -47,6 +47,12 @@ function extractListingIds(searchParams: URLSearchParams): string[] {
     .filter(Boolean);
 }
 
+function createReturnOnlyParams(returnTo: string): URLSearchParams {
+  const nextParams = new URLSearchParams();
+  nextParams.set("returnTo", returnTo);
+  return nextParams;
+}
+
 export function CompareListingsPage() {
   const location = useLocation();
   const [searchParams, setSearchParams] = useSearchParams();
@@ -99,9 +105,7 @@ export function CompareListingsPage() {
   function removeListing(listingId: string): void {
     const nextIds = listingIds.filter((item) => item !== listingId);
     if (nextIds.length < 2) {
-      const nextParams = new URLSearchParams();
-      nextParams.set("returnTo", returnTo);
-      setSearchParams(nextParams);
+      setSearchParams(createReturnOnlyParams(returnTo));
       return;
     }
 
@@ -147,11 +151,21 @@ export function CompareListingsPage() {
             <VStack align="stretch" spacing={4}>
               <Alert status="warning" rounded="xl">
                 <AlertIcon />
-                Select at least two listings to start comparing.
+                Select one more listing to compare. You can compare up to 4 listings at a time.
               </Alert>
-              <Button as={RouterLink} to={returnTo} colorScheme="blue" alignSelf="start">
-                Return to results
-              </Button>
+              <HStack>
+                <Button as={RouterLink} to={returnTo} colorScheme="blue" alignSelf="start">
+                  Continue browsing
+                </Button>
+                <Button
+                  variant="outline"
+                  onClick={() => {
+                    setSearchParams(createReturnOnlyParams(returnTo));
+                  }}
+                >
+                  Clear selection
+                </Button>
+              </HStack>
             </VStack>
           </CardBody>
         </Card>

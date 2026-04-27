@@ -24,6 +24,7 @@ import { FormEvent, useEffect, useMemo, useRef, useState } from "react";
 import { Link as RouterLink, useLocation, useNavigate, useSearchParams } from "react-router-dom";
 
 import { searchListings, searchNearbyListings, type SearchResults } from "../api/listings";
+import { createRecentSearch } from "../api/recentSearches";
 import { ListingSummaryCard } from "../components/ListingCards";
 
 type NearbyLocation = {
@@ -133,6 +134,7 @@ export function DashboardPage() {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
   const requestIdRef = useRef(0);
+  const lastRecordedSearchKeyRef = useRef<string | null>(null);
 
   useEffect(() => {
     setCityInput(searchParams.get("city") ?? "");
@@ -205,6 +207,21 @@ export function DashboardPage() {
         setSelectedIds((currentSelection) =>
           currentSelection.filter((listingId) => nextResults.items.some((item) => item.id === listingId))
         );
+
+        const recordKey = `${city}|${radiusKm ?? ""}|${availability ?? ""}|${priceMin ?? ""}|${priceMax ?? ""}|${sortValue}`;
+        if (currentPage === 1 && lastRecordedSearchKeyRef.current !== recordKey) {
+          lastRecordedSearchKeyRef.current = recordKey;
+          void createRecentSearch({
+            city: city || undefined,
+            radius_km: isNearby ? (radiusKm ?? undefined) : undefined,
+            filters: {
+              ...(availability ? { availability } : {}),
+              ...(priceMin !== null ? { price_min: priceMin } : {}),
+              ...(priceMax !== null ? { price_max: priceMax } : {}),
+            },
+            sort: sortValue,
+          });
+        }
       } catch (error) {
         if (requestIdRef.current === requestId) {
           setErrorMessage(
@@ -227,6 +244,7 @@ export function DashboardPage() {
   const activeSortOptions = activeMode === "nearby" ? nearbySortOptions : citySortOptions;
   const activeReturnTo = buildReturnTo(location.pathname, location.search);
   const resultCountLabel = buildSearchSummary(results, loading, hasSearch);
+  const hasActiveSearchFilters = Boolean(availabilityInput || priceMinInput || priceMaxInput);
 
   function updateSearchParams(nextParams: URLSearchParams): void {
     setSearchParams(nextParams, { replace: false });
@@ -296,6 +314,22 @@ export function DashboardPage() {
     if (!nextParams.get("sort") || nextParams.get("sort") === "relevance") {
       nextParams.set("sort", "nearest");
     }
+    updateSearchParams(nextParams);
+  }
+
+  function broadenSearch(): void {
+    const nextParams = new URLSearchParams(searchParams);
+    if (activeMode === "nearby") {
+      const currentRadius = Number(nextParams.get("radius_km") ?? radiusInput);
+      const broadenedRadius = radiusOptions.find((value) => value > currentRadius) ?? 20;
+      nextParams.set("radius_km", String(broadenedRadius));
+      setRadiusInput(String(broadenedRadius));
+    } else {
+      const fallbackCity = cityInput.trim() || "Hyderabad";
+      nextParams.set("city", fallbackCity);
+      setCityInput(fallbackCity);
+    }
+    nextParams.set("page", "1");
     updateSearchParams(nextParams);
   }
 
@@ -429,6 +463,9 @@ export function DashboardPage() {
                 <Text color="gray.600" mt={2}>
                   {hasSearch ? "You can keep refining without leaving the page." : "Start with a city or nearby radius."}
                 </Text>
+                <Button as={RouterLink} to={`${basePath}/recent-searches`} size="sm" mt={3} variant="ghost" colorScheme="blue">
+                  Open recent searches
+                </Button>
               </CardBody>
             </Card>
           </Box>
@@ -655,19 +692,21 @@ export function DashboardPage() {
               ) : (
                 <Box borderWidth="1px" borderStyle="dashed" rounded="2xl" p={8} textAlign="center" bg="white">
                   <Heading size="md" mb={2}>
-                    {activeMode === "nearby" ? "No nearby listings found" : "No listings found for this city"}
+                    {hasActiveSearchFilters ? "No listings match your current filters" : activeMode === "nearby" ? "No nearby listings found" : "No listings matched your search"}
                   </Heading>
                   <Text color="gray.600" mb={5}>
-                    {activeMode === "nearby"
-                      ? "Try widening the radius or clearing filters to surface more options."
-                      : "Try another city or clear filters to broaden the result set."}
+                    {hasActiveSearchFilters
+                      ? "Try removing one filter or widening your distance."
+                      : activeMode === "nearby"
+                        ? "Try widening your radius or changing location context."
+                        : "Try widening your radius or changing the city."}
                   </Text>
                   <HStack justify="center" spacing={3}>
                     <Button variant="outline" onClick={resetFilters}>
                       Clear filters
                     </Button>
-                    <Button as={RouterLink} to={basePath} colorScheme="blue">
-                      Start over
+                    <Button colorScheme="blue" onClick={broadenSearch}>
+                      Broaden search
                     </Button>
                   </HStack>
                 </Box>
