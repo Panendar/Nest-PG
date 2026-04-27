@@ -57,6 +57,12 @@ def _token_headers(client: TestClient) -> dict[str, str]:
     return {"Authorization": f"Bearer {response.json()['access_token']}"}
 
 
+def _login_headers(client: TestClient, email: str, password: str) -> dict[str, str]:
+    response = client.post("/api/v1/auth/token", json={"email": email, "password": password})
+    assert response.status_code == 200, response.text
+    return {"Authorization": f"Bearer {response.json()['access_token']}"}
+
+
 def test_login_returns_tokens(tmp_path, monkeypatch):
     client = _build_test_client(tmp_path, monkeypatch)
 
@@ -227,6 +233,56 @@ def test_contact_rejects_duplicate_recent_inquiry(tmp_path, monkeypatch):
     assert duplicate_response.json()["error"]["message"] == "You have already sent an inquiry recently. Please wait before trying again."
 
 
+def test_contact_rejects_listing_with_closed_inquiries(tmp_path, monkeypatch):
+    client = _build_test_client(tmp_path, monkeypatch)
+    headers = _token_headers(client)
+
+    listing_search = client.get("/api/v1/listings?city=Hyderabad&page=1&page_size=20", headers=headers)
+    closed_listing = next(item for item in listing_search.json()["items"] if item["accepting_inquiries"] is False)
+
+    response = client.post(
+        "/api/v1/contacts",
+        json={
+            "listing_id": closed_listing["id"],
+            "full_name": "Test User",
+            "phone_number": "+91 9876543210",
+            "preferred_move_in_date": None,
+            "message": "I am interested in this listing and would like to visit.",
+        },
+        headers=headers,
+    )
+
+    assert response.status_code == 410
+    assert response.json()["error"]["message"] == "This listing is not accepting inquiries right now."
+
+
+def test_contact_status_forbidden_for_different_user(tmp_path, monkeypatch):
+    client = _build_test_client(tmp_path, monkeypatch)
+    user_headers = _token_headers(client)
+    other_headers = _login_headers(client, "owner-1@example.com", "change-me")
+
+    listing_search = client.get("/api/v1/listings?city=Hyderabad&page=1&page_size=20", headers=user_headers)
+    listing_id = listing_search.json()["items"][0]["id"]
+
+    create_response = client.post(
+        "/api/v1/contacts",
+        json={
+            "listing_id": listing_id,
+            "full_name": "Test User",
+            "phone_number": "+91 9876543210",
+            "preferred_move_in_date": None,
+            "message": "I am interested in this listing and would like to visit.",
+        },
+        headers=user_headers,
+    )
+    assert create_response.status_code == 201
+
+    response = client.get(f"/api/v1/contacts/{create_response.json()['id']}", headers=other_headers)
+
+    assert response.status_code == 403
+    assert response.json()["error"]["message"] == "Your account cannot view this inquiry status."
+
+
 def test_saved_listings_create_list_delete(tmp_path, monkeypatch):
     client = _build_test_client(tmp_path, monkeypatch)
     headers = _token_headers(client)
@@ -248,6 +304,16 @@ def test_saved_listings_create_list_delete(tmp_path, monkeypatch):
 
     delete_response = client.delete(f"/api/v1/saved-listings/{saved_id}", headers=headers)
     assert delete_response.status_code == 204
+
+
+def test_saved_listings_reject_inactive_listing(tmp_path, monkeypatch):
+    client = _build_test_client(tmp_path, monkeypatch)
+    headers = _token_headers(client)
+
+    response = client.post("/api/v1/saved-listings", json={"listing_id": "inactive-listing-test"}, headers=headers)
+
+    assert response.status_code == 404
+    assert response.json()["error"]["message"] == "This listing is no longer available in your saved list."
 
 
 def test_recent_searches_create_list_get_context_delete(tmp_path, monkeypatch):
@@ -294,3 +360,25 @@ def test_recent_searches_reject_empty_payload(tmp_path, monkeypatch):
 
     assert response.status_code == 400
     assert response.json()["error"]["message"] == "We could not restore this search. Please try again."
+
+
+def test_recent_searches_collapse_duplicates_to_latest(tmp_path, monkeypatch):
+    client = _build_test_client(tmp_path, monkeypatch)
+    headers = _token_headers(client)
+    payload = {
+        "city": "Hyderabad",
+        "radius_km": 5,
+        "filters": {"availability": "available"},
+        "sort": "relevance",
+    }
+
+    first_response = client.post("/api/v1/recent-searches", json=payload, headers=headers)
+    assert first_response.status_code == 201
+
+    second_response = client.post("/api/v1/recent-searches", json=payload, headers=headers)
+    assert second_response.status_code == 201
+    assert second_response.json()["id"] == first_response.json()["id"]
+
+    list_response = client.get("/api/v1/recent-searches?page=1&page_size=20", headers=headers)
+    assert list_response.status_code == 200
+    assert len(list_response.json()["items"]) == 1

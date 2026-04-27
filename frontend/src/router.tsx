@@ -7,6 +7,8 @@ import { CompareListingsPage } from "./pages/CompareListingsPage";
 import { ListingDetailsPage } from "./pages/ListingDetailsPage";
 import { LoginPage } from "./pages/LoginPage";
 import { NotFoundPage } from "./pages/NotFoundPage";
+import { RecentSearchesPage } from "./pages/RecentSearchesPage";
+import { SavedListingsPage } from "./pages/SavedListingsPage";
 
 function createModuleRoutes(basePath: string) {
   return {
@@ -31,7 +33,11 @@ function createModuleRoutes(basePath: string) {
       },
       {
         path: "saved",
-        element: <NotFoundPage />,
+        element: <SavedListingsPage />,
+      },
+      {
+        path: "recent-searches",
+        element: <RecentSearchesPage />,
       },
     ],
   };

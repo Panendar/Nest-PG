@@ -34,6 +34,8 @@ import { createContact, getContact, type ContactCreateResponse, type ContactStat
 import { getListing, type ListingDetail } from "../api/listings";
 import { createSavedListing, deleteSavedListing, getSavedListings, type SavedListingItem } from "../api/savedListings";
 import { formatDistance, formatPrice } from "../components/ListingCards";
+import { useUI } from "../state/UIContext";
+import { getModuleBasePath, readLastSearchContext } from "../utils/navigation";
 
 function getApiMessage(error: unknown, fallback: string): string {
   if (axios.isAxiosError(error)) {
@@ -48,10 +50,6 @@ function getApiMessage(error: unknown, fallback: string): string {
   return fallback;
 }
 
-function buildBasePath(pathname: string): string {
-  return pathname.replace(/\/listings\/[^/]+$/, "").replace(/\/listings$/, "");
-}
-
 function getApiStatus(error: unknown): number | null {
   return axios.isAxiosError(error) ? error.response?.status ?? null : null;
 }
@@ -60,10 +58,21 @@ function isValidPhone(phone: string): boolean {
   return /^[+()\-\d\s]{7,32}$/.test(phone.trim());
 }
 
+function getOwnerDisplayLabel(listing: ListingDetail | null): string {
+  if (!listing) {
+    return "Owner contact";
+  }
+
+  // SPEC GAP: owner display names are not available in the current listing payload,
+  // so the UI falls back to the owner's email as the visible contact reference.
+  return listing.owner.email;
+}
+
 export function ListingDetailsPage() {
   const { listingId } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
+  const { showToast } = useUI();
   const [searchParams, setSearchParams] = useSearchParams();
   const [listing, setListing] = useState<ListingDetail | null>(null);
   const [loading, setLoading] = useState(true);
@@ -83,10 +92,11 @@ export function ListingDetailsPage() {
   const [moveInDate, setMoveInDate] = useState("");
   const [message, setMessage] = useState("");
 
-  const basePath = useMemo(() => buildBasePath(location.pathname), [location.pathname]);
-  const returnTo = searchParams.get("returnTo") || `${basePath}/search`;
+  const basePath = useMemo(() => getModuleBasePath(location.pathname), [location.pathname]);
+  const returnTo = searchParams.get("returnTo") || readLastSearchContext(`${basePath}/search`);
   const fromSaved = searchParams.get("fromSaved") === "1";
   const queryContactId = searchParams.get("contact_id");
+  const openContactFromQuery = searchParams.get("openContact") === "1";
   const compareHref = `${basePath}/compare?listing_ids=${encodeURIComponent(listingId ?? "")}&returnTo=${encodeURIComponent(returnTo)}`;
 
   useEffect(() => {
@@ -114,6 +124,20 @@ export function ListingDetailsPage() {
       active = false;
     };
   }, [listingId]);
+
+  useEffect(() => {
+    if (!openContactFromQuery || !listing) {
+      return;
+    }
+
+    const nextParams = new URLSearchParams(searchParams);
+    nextParams.delete("openContact");
+    setSearchParams(nextParams, { replace: true });
+
+    if (listing.accepting_inquiries) {
+      openContactForm();
+    }
+  }, [listing, openContactFromQuery, searchParams, setSearchParams]);
 
   useEffect(() => {
     if (!queryContactId) {
@@ -195,6 +219,11 @@ export function ListingDetailsPage() {
       if (savedEntry) {
         await deleteSavedListing(savedEntry.id);
         setSavedEntry(null);
+        showToast({
+          title: "Removed from saved",
+          description: `${listing?.title ?? "Listing"} was removed from your saved listings.`,
+          status: "info",
+        });
       } else {
         const created = await createSavedListing(listingId);
         setSavedEntry({
@@ -210,6 +239,11 @@ export function ListingDetailsPage() {
             price: listing?.price ?? 0,
             distance_km: null,
           },
+        });
+        showToast({
+          title: "Listing saved",
+          description: `${listing?.title ?? "Listing"} is ready to revisit later.`,
+          status: "success",
         });
       }
     } catch (error) {
@@ -265,9 +299,15 @@ export function ListingDetailsPage() {
       setConfirmation(response);
       setContactOpen(false);
       setContactStatus(await getContact(response.id));
+      showToast({
+        title: "Inquiry sent",
+        description: `Your inquiry for ${listing.title} was sent successfully.`,
+        status: "success",
+      });
 
       const nextParams = new URLSearchParams(searchParams);
       nextParams.set("contact_id", response.id);
+      nextParams.delete("openContact");
       setSearchParams(nextParams, { replace: true });
     } catch (error) {
       setContactError(getApiMessage(error, "Something went wrong while sending your inquiry. Please try again."));
@@ -276,8 +316,9 @@ export function ListingDetailsPage() {
     }
   }
 
-  const canContact = Boolean(listing?.accepting_inquiries && listing?.availability_status !== "full");
+  const canContact = Boolean(listing?.accepting_inquiries);
   const isUnavailableListing = errorStatus === 404 || errorStatus === 410;
+  const ownerDisplayLabel = getOwnerDisplayLabel(listing);
 
   return (
     <VStack align="stretch" spacing={6}>
@@ -348,6 +389,7 @@ export function ListingDetailsPage() {
                     <Badge colorScheme={listing.availability_status === "available" ? "green" : listing.availability_status === "limited" ? "orange" : "gray"}>
                       {listing.availability_status}
                     </Badge>
+                    {savedEntry ? <Badge colorScheme="green">Saved</Badge> : null}
                     {formatDistance(listing.distance_km) ? <Badge colorScheme="purple">{formatDistance(listing.distance_km)}</Badge> : null}
                   </HStack>
                   <Heading size="lg">{listing.title}</Heading>
@@ -357,17 +399,60 @@ export function ListingDetailsPage() {
                 </Box>
 
                 {contactStatus ? (
-                  <Alert status={contactStatus.status === "closed" ? "warning" : "success"} rounded="xl">
-                    <AlertIcon />
-                    Inquiry status: {contactStatus.status === "closed" ? "Closed" : "Open"}. Last inquiry: {new Date(contactStatus.submitted_at).toLocaleString()}.
-                  </Alert>
+                  <Card borderRadius="xl" borderWidth="1px" borderColor={contactStatus.status === "closed" ? "orange.200" : "green.200"} bg={contactStatus.status === "closed" ? "orange.50" : "green.50"}>
+                    <CardBody>
+                      <VStack align="stretch" spacing={3}>
+                        <Box>
+                          <Heading size="sm" mb={1}>
+                            Inquiry status: {contactStatus.status === "closed" ? "Closed" : "Open"}
+                          </Heading>
+                          <Text color="gray.700">Last inquiry: {new Date(contactStatus.submitted_at).toLocaleString()}</Text>
+                        </Box>
+                        <Text color="gray.700">
+                          {contactStatus.status === "closed"
+                            ? "This listing is not accepting new inquiries right now. Please return to search results and choose another."
+                            : "You can still follow up on this listing from the current detail view."}
+                        </Text>
+                        <HStack>
+                          {contactStatus.can_contact_again ? (
+                            <Button size="sm" colorScheme="green" onClick={openContactForm}>
+                              Contact owner again
+                            </Button>
+                          ) : (
+                            <Button size="sm" variant="outline" isDisabled>
+                              Contact unavailable
+                            </Button>
+                          )}
+                          <Button as={RouterLink} to={returnTo} size="sm" variant="ghost">
+                            Return to browse
+                          </Button>
+                        </HStack>
+                      </VStack>
+                    </CardBody>
+                  </Card>
                 ) : null}
 
                 {!canContact ? (
-                  <Alert status="warning" rounded="xl">
-                    <AlertIcon />
-                    This listing is not accepting inquiries right now. You can keep browsing other PG options.
-                  </Alert>
+                  <Card borderRadius="xl" borderWidth="1px" borderColor="orange.200" bg="orange.50">
+                    <CardBody>
+                      <VStack align="stretch" spacing={3}>
+                        <Box>
+                          <Heading size="sm" mb={1}>
+                            Contact status: Not accepting inquiries
+                          </Heading>
+                          <Text color="gray.700">This listing is not accepting inquiries right now. You can keep browsing other PG options.</Text>
+                        </Box>
+                        <HStack>
+                          <Button as={RouterLink} to={returnTo} size="sm" colorScheme="orange">
+                            Return to results
+                          </Button>
+                          <Button as={RouterLink} to={returnTo} size="sm" variant="ghost">
+                            Browse more listings
+                          </Button>
+                        </HStack>
+                      </VStack>
+                    </CardBody>
+                  </Card>
                 ) : null}
 
                 {confirmation ? (
@@ -376,7 +461,9 @@ export function ListingDetailsPage() {
                       <VStack align="stretch" spacing={2}>
                         <Heading size="sm">Inquiry sent successfully</Heading>
                         <Text color="gray.700">For listing: {listing.title}</Text>
+                        <Text color="gray.700">To owner: {ownerDisplayLabel}</Text>
                         <Text color="gray.700">Sent at: {new Date(confirmation.submitted_at).toLocaleString()}</Text>
+                        <Text color="gray.700">We will notify you when the owner responds.</Text>
                         <HStack>
                           <Button as={RouterLink} to={returnTo} size="sm" colorScheme="green">
                             Back to Results
@@ -412,7 +499,7 @@ export function ListingDetailsPage() {
                   Owner details
                 </Heading>
                 <Stack spacing={2}>
-                  <Text fontWeight="medium">{listing.owner.email}</Text>
+                  <Text fontWeight="medium">{ownerDisplayLabel}</Text>
                   <Text color="gray.600">Role: {listing.owner.role}</Text>
                   <Text color="gray.600">Owner ID: {listing.owner.id}</Text>
                 </Stack>
@@ -432,11 +519,7 @@ export function ListingDetailsPage() {
                     <Button colorScheme="blue" onClick={openContactForm}>
                       Contact owner
                     </Button>
-                  ) : (
-                    <Button variant="outline" isDisabled>
-                      Contact unavailable
-                    </Button>
-                  )}
+                  ) : null}
                   {savedEntry ? (
                     <>
                       <Button variant="outline" onClick={() => navigate(`${basePath}/saved`)}>
@@ -470,7 +553,7 @@ export function ListingDetailsPage() {
             <VStack align="stretch" spacing={4}>
               <Box>
                 <Text fontWeight="medium">Listing: {listing?.title}</Text>
-                <Text color="gray.600">Owner: {listing?.owner.email}</Text>
+                <Text color="gray.600">Owner: {ownerDisplayLabel}</Text>
               </Box>
 
               {contactValidation ? (

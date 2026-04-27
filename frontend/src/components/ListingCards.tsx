@@ -27,12 +27,26 @@ function availabilityTone(status: string): string {
 type ListingSummaryCardProps = {
   listing: ListingSummary;
   detailHref: string;
+  contactHref: string;
   compareChecked: boolean;
+  isSaved: boolean;
+  saveBusy?: boolean;
   onToggleCompare: (listingId: string) => void;
+  onToggleSave: (listing: ListingSummary) => void;
 };
 
-export function ListingSummaryCard({ listing, detailHref, compareChecked, onToggleCompare }: ListingSummaryCardProps) {
+export function ListingSummaryCard({
+  listing,
+  detailHref,
+  contactHref,
+  compareChecked,
+  isSaved,
+  saveBusy = false,
+  onToggleCompare,
+  onToggleSave,
+}: ListingSummaryCardProps) {
   const distanceLabel = formatDistance(listing.distance_km);
+  const canContact = listing.accepting_inquiries;
 
   return (
     <Box
@@ -65,6 +79,7 @@ export function ListingSummaryCard({ listing, detailHref, compareChecked, onTogg
           <Badge colorScheme={listing.accepting_inquiries ? "blue" : "gray"}>
             {listing.accepting_inquiries ? "Accepting inquiries" : "Not accepting inquiries"}
           </Badge>
+          {isSaved ? <Badge colorScheme="green">Saved</Badge> : null}
           {distanceLabel ? <Badge colorScheme="purple">{distanceLabel}</Badge> : null}
         </HStack>
 
@@ -75,14 +90,30 @@ export function ListingSummaryCard({ listing, detailHref, compareChecked, onTogg
           <Text color="gray.600">Quickly review the listing details before comparing or contacting.</Text>
         </Stack>
 
-        <HStack justify="space-between">
-          <Button as={RouterLink} to={detailHref} variant="outline" colorScheme="blue">
-            View details
-          </Button>
-          <Text fontSize="sm" color="gray.500">
-            ID {listing.id.slice(0, 8)}
-          </Text>
-        </HStack>
+        <Stack spacing={2}>
+          <HStack justify="space-between" flexWrap="wrap">
+            <Button as={RouterLink} to={detailHref} variant="outline" colorScheme="blue">
+              View details
+            </Button>
+            {canContact ? (
+              <Button as={RouterLink} to={contactHref} colorScheme="blue">
+                Contact owner
+              </Button>
+            ) : (
+              <Button variant="outline" isDisabled>
+                Contact unavailable
+              </Button>
+            )}
+          </HStack>
+          <HStack justify="space-between" flexWrap="wrap">
+            <Button variant="ghost" colorScheme={isSaved ? "green" : "gray"} isLoading={saveBusy} onClick={() => onToggleSave(listing)}>
+              {isSaved ? "Remove saved" : "Save listing"}
+            </Button>
+            <Text fontSize="sm" color="gray.500">
+              ID {listing.id.slice(0, 8)}
+            </Text>
+          </HStack>
+        </Stack>
       </VStack>
     </Box>
   );
