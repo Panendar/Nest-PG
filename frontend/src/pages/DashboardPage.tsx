@@ -25,7 +25,10 @@ import { Link as RouterLink, useLocation, useNavigate, useSearchParams } from "r
 
 import { searchListings, searchNearbyListings, type SearchResults } from "../api/listings";
 import { createRecentSearch } from "../api/recentSearches";
+import { createSavedListing, deleteSavedListing, getSavedListings, type SavedListingItem } from "../api/savedListings";
 import { ListingSummaryCard } from "../components/ListingCards";
+import { useUI } from "../state/UIContext";
+import { getModuleBasePath, rememberSearchContext } from "../utils/navigation";
 
 type NearbyLocation = {
   label: string;
@@ -39,6 +42,19 @@ const defaultLocation: NearbyLocation = {
   label: "Gachibowli, Hyderabad",
   lat: 17.4425,
   lng: 78.3498,
+};
+const cityCenters: Record<string, NearbyLocation> = {
+  hyderabad: defaultLocation,
+  bengaluru: {
+    label: "Indiranagar, Bengaluru",
+    lat: 12.9719,
+    lng: 77.6412,
+  },
+  pune: {
+    label: "Kharadi, Pune",
+    lat: 18.5519,
+    lng: 73.9502,
+  },
 };
 
 const citySortOptions = [
@@ -82,10 +98,6 @@ function buildReturnTo(locationPathname: string, locationSearch: string): string
   return `${locationPathname}${locationSearch}`;
 }
 
-function buildBasePath(pathname: string): string {
-  return pathname.replace(/\/search$/, "");
-}
-
 function parseLocation(searchParams: URLSearchParams): NearbyLocation | null {
   const lat = readOptionalNumber(searchParams.get("lat"));
   const lng = readOptionalNumber(searchParams.get("lng"));
@@ -114,9 +126,10 @@ function buildSearchSummary(results: SearchResults | null, loading: boolean, has
 export function DashboardPage() {
   const navigate = useNavigate();
   const location = useLocation();
+  const { showToast } = useUI();
   const [searchParams, setSearchParams] = useSearchParams();
   const searchKey = searchParams.toString();
-  const basePath = useMemo(() => buildBasePath(location.pathname), [location.pathname]);
+  const basePath = useMemo(() => getModuleBasePath(location.pathname), [location.pathname]);
   const hasSearch = Boolean(searchParams.get("city") || searchParams.get("mode") === "nearby");
 
   const [cityInput, setCityInput] = useState(searchParams.get("city") ?? "");
@@ -133,8 +146,12 @@ export function DashboardPage() {
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
+  const [savedItemsByListingId, setSavedItemsByListingId] = useState<Record<string, SavedListingItem>>({});
+  const [saveBusyId, setSaveBusyId] = useState<string | null>(null);
+  const [compareAttempted, setCompareAttempted] = useState(false);
   const requestIdRef = useRef(0);
   const lastRecordedSearchKeyRef = useRef<string | null>(null);
+  const restored = searchParams.get("restored") === "1";
 
   useEffect(() => {
     setCityInput(searchParams.get("city") ?? "");
@@ -145,6 +162,34 @@ export function DashboardPage() {
     setPriceMaxInput(searchParams.get("price_max") ?? "");
     setSortInput(searchParams.get("sort") ?? (searchParams.get("mode") === "nearby" ? "nearest" : "relevance"));
   }, [searchKey]);
+
+  useEffect(() => {
+    let active = true;
+
+    void (async () => {
+      try {
+        const savedListings = await getSavedListings(1, 50);
+        if (!active) {
+          return;
+        }
+
+        setSavedItemsByListingId(
+          savedListings.items.reduce<Record<string, SavedListingItem>>((accumulator, item) => {
+            accumulator[item.listing_id] = item;
+            return accumulator;
+          }, {})
+        );
+      } catch {
+        if (active) {
+          setSavedItemsByListingId({});
+        }
+      }
+    })();
+
+    return () => {
+      active = false;
+    };
+  }, []);
 
   useEffect(() => {
     if (!hasSearch) {
@@ -240,6 +285,17 @@ export function DashboardPage() {
     })();
   }, [hasSearch, radiusInput, searchKey, searchParams]);
 
+  useEffect(() => {
+    if (!hasSearch) {
+      return;
+    }
+
+    const persistedParams = new URLSearchParams(location.search);
+    persistedParams.delete("restored");
+    const persistedSearch = persistedParams.toString();
+    rememberSearchContext(`${location.pathname}${persistedSearch ? `?${persistedSearch}` : ""}`);
+  }, [hasSearch, location.pathname, location.search]);
+
   const activeMode = searchParams.get("mode") === "nearby" ? "nearby" : "city";
   const activeSortOptions = activeMode === "nearby" ? nearbySortOptions : citySortOptions;
   const activeReturnTo = buildReturnTo(location.pathname, location.search);
@@ -247,6 +303,9 @@ export function DashboardPage() {
   const hasActiveSearchFilters = Boolean(availabilityInput || priceMinInput || priceMaxInput);
 
   function updateSearchParams(nextParams: URLSearchParams): void {
+    if (nextParams.get("restored") !== "1") {
+      nextParams.delete("restored");
+    }
     setSearchParams(nextParams, { replace: false });
   }
 
@@ -319,15 +378,42 @@ export function DashboardPage() {
 
   function broadenSearch(): void {
     const nextParams = new URLSearchParams(searchParams);
+    if (hasActiveSearchFilters) {
+      nextParams.delete("availability");
+      nextParams.delete("price_min");
+      nextParams.delete("price_max");
+      nextParams.set("page", "1");
+      setAvailabilityInput("");
+      setPriceMinInput("");
+      setPriceMaxInput("");
+      updateSearchParams(nextParams);
+      return;
+    }
+
     if (activeMode === "nearby") {
       const currentRadius = Number(nextParams.get("radius_km") ?? radiusInput);
       const broadenedRadius = radiusOptions.find((value) => value > currentRadius) ?? 20;
       nextParams.set("radius_km", String(broadenedRadius));
       setRadiusInput(String(broadenedRadius));
     } else {
-      const fallbackCity = cityInput.trim() || "Hyderabad";
-      nextParams.set("city", fallbackCity);
-      setCityInput(fallbackCity);
+      const cityKey = (searchParams.get("city") ?? cityInput).trim().toLowerCase();
+      const cityCenter = cityCenters[cityKey];
+
+      // SPEC GAP: the city-search API has no radius parameter, so "Broaden Search"
+      // falls back to the nearby-search flow for seeded city centers.
+      if (!cityCenter) {
+        setValidationMessage("Try another city or switch to nearby search to widen these results.");
+        return;
+      }
+
+      setLocationContext(cityCenter);
+      nextParams.delete("city");
+      nextParams.set("mode", "nearby");
+      nextParams.set("lat", String(cityCenter.lat));
+      nextParams.set("lng", String(cityCenter.lng));
+      nextParams.set("location_label", cityCenter.label);
+      nextParams.set("radius_km", "10");
+      nextParams.set("sort", "nearest");
     }
     nextParams.set("page", "1");
     updateSearchParams(nextParams);
@@ -390,13 +476,18 @@ export function DashboardPage() {
         setCompareMessage("You can compare up to 4 listings at a time.");
         return current;
       }
-      return [...current, listingId];
+      const nextIds = [...current, listingId];
+      if (nextIds.length >= 2) {
+        setCompareAttempted(false);
+      }
+      return nextIds;
     });
   }
 
   function openCompare(): void {
     if (selectedIds.length < 2) {
       setCompareMessage("Select at least two listings to start comparing.");
+      setCompareAttempted(true);
       return;
     }
 
@@ -404,6 +495,51 @@ export function DashboardPage() {
     compareParams.set("listing_ids", selectedIds.join(","));
     compareParams.set("returnTo", activeReturnTo);
     navigate(`${basePath}/compare?${compareParams.toString()}`);
+  }
+
+  async function handleToggleSave(listingId: string): Promise<void> {
+    const matchingListing = results?.items.find((item) => item.id === listingId);
+    if (!matchingListing) {
+      return;
+    }
+
+    setSaveBusyId(listingId);
+    try {
+      const existingItem = savedItemsByListingId[listingId];
+      if (existingItem) {
+        await deleteSavedListing(existingItem.id);
+        setSavedItemsByListingId((current) => {
+          const nextItems = { ...current };
+          delete nextItems[listingId];
+          return nextItems;
+        });
+        showToast({
+          title: "Removed from saved",
+          description: `${matchingListing.title} was removed from your saved listings.`,
+          status: "info",
+        });
+      } else {
+        const createdItem = await createSavedListing(listingId);
+        setSavedItemsByListingId((current) => ({
+          ...current,
+          [listingId]: {
+            id: createdItem.id,
+            listing_id: createdItem.listing_id,
+            saved_at: createdItem.saved_at,
+            listing_summary: matchingListing,
+          },
+        }));
+        showToast({
+          title: "Listing saved",
+          description: `${matchingListing.title} is ready for a quick return visit.`,
+          status: "success",
+        });
+      }
+    } catch (error) {
+      setErrorMessage(getApiMessage(error, "Could not update saved listings right now."));
+    } finally {
+      setSaveBusyId(null);
+    }
   }
 
   const activeFilterChips = [
@@ -608,7 +744,7 @@ export function DashboardPage() {
             {activeFilterChips.length ? (
               <HStack spacing={2} flexWrap="wrap">
                 {activeFilterChips.map((chip) => (
-                  <Button key={chip.key} size="xs" variant="subtle" onClick={() => clearChip(chip.key)}>
+                  <Button key={chip.key} size="xs" variant="outline" onClick={() => clearChip(chip.key)}>
                     {chip.label}
                   </Button>
                 ))}
@@ -622,6 +758,13 @@ export function DashboardPage() {
         <Alert status="warning" rounded="xl">
           <AlertIcon />
           {compareMessage}
+        </Alert>
+      ) : null}
+
+      {restored ? (
+        <Alert status="success" rounded="xl">
+          <AlertIcon />
+          Restored your recent search. Review the filters below or continue browsing from this same context.
         </Alert>
       ) : null}
 
@@ -643,10 +786,40 @@ export function DashboardPage() {
                   </Heading>
                   <Text color="gray.600">Update the city, radius, filters, or sort order from this same view.</Text>
                 </Box>
-                <Button colorScheme="purple" onClick={openCompare} isDisabled={selectedIds.length < 2}>
+                <Button colorScheme="purple" onClick={openCompare}>
                   Compare selected ({selectedIds.length})
                 </Button>
               </HStack>
+
+              {compareAttempted && selectedIds.length < 2 ? (
+                <Card borderRadius="2xl" borderWidth="1px" bg="orange.50" borderColor="orange.200">
+                  <CardBody>
+                    <VStack align="stretch" spacing={4}>
+                      <Box>
+                        <Heading size="sm" mb={2}>
+                          Compare: {selectedIds.length} selected (need at least 2)
+                        </Heading>
+                        <Text color="gray.700">Select one more listing to compare. You can compare up to 4 listings at a time.</Text>
+                      </Box>
+                      <HStack>
+                        <Button variant="outline" onClick={() => setCompareAttempted(false)}>
+                          Continue browsing
+                        </Button>
+                        <Button
+                          colorScheme="orange"
+                          variant="ghost"
+                          onClick={() => {
+                            setSelectedIds([]);
+                            setCompareAttempted(false);
+                          }}
+                        >
+                          Clear selection
+                        </Button>
+                      </HStack>
+                    </VStack>
+                  </CardBody>
+                </Card>
+              ) : null}
 
               {loading ? (
                 <SimpleGrid columns={{ base: 1, xl: 2 }} spacing={5}>
@@ -665,8 +838,14 @@ export function DashboardPage() {
                         key={listing.id}
                         listing={listing}
                         detailHref={`${basePath}/listings/${listing.id}?returnTo=${encodeURIComponent(activeReturnTo)}`}
+                        contactHref={`${basePath}/listings/${listing.id}?returnTo=${encodeURIComponent(activeReturnTo)}&openContact=1`}
                         compareChecked={selectedIds.includes(listing.id)}
+                        isSaved={Boolean(savedItemsByListingId[listing.id])}
+                        saveBusy={saveBusyId === listing.id}
                         onToggleCompare={toggleCompare}
+                        onToggleSave={(savedListing) => {
+                          void handleToggleSave(savedListing.id);
+                        }}
                       />
                     ))}
                   </SimpleGrid>
