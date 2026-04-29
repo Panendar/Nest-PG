@@ -1,0 +1,22 @@
+SCREEN: No Results State (/user/search?filters&sort)
+====================================================
+
+┌────────────────────────────────────────────────────┐
+│ My_PG > User > Filtered Results                    │
+├────────────────────────────────────────────────────┤
+│ Active: [Price 15000-18000 x] [Within 1 km x]      │
+│ Sort: [Dropdown ▾ Relevance]                       │
+├────────────────────────────────────────────────────┤
+│                                                    │
+│ No listings match your current filters.            │
+│ Try removing one filter or widening your distance. │
+│                                                    │
+│ [Clear One Filter] [Reset All Filters]             │
+│                                                    │
+└────────────────────────────────────────────────────┘
+
+NOTES:
+- Empty state appears only when response has zero matches.
+- [Clear One Filter] removes the most recent filter first.
+- [Reset All Filters] returns to default result set.
+- Previous filter values stay visible until user changes them.

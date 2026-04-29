@@ -1,0 +1,26 @@
+SCREEN: Saved Listings Screen (/user/saved)
+===========================================
+
+┌────────────────────────────────────────────────────┐
+│ My_PG > User > Saved Listings                      │
+├────────────────────────────────────────────────────┤
+│ Saved PGs                                           │
+│ 3 listings saved                                   │
+│                                                    │
+│ ┌────────────────────────────────────────────────┐ │
+│ │ Sri Lakshmi PG - Madhapur                    x │ │
+│ │ Rs 8,500/mo | Beds: 2 available               │ │
+│ │ [Open] [Remove]                               │ │
+│ └────────────────────────────────────────────────┘ │
+│ ┌────────────────────────────────────────────────┐ │
+│ │ Green Nest PG - Gachibowli                    x │ │
+│ │ Rs 9,100/mo | Beds: 1 available               │ │
+│ │ [Open] [Remove]                               │ │
+│ └────────────────────────────────────────────────┘ │
+└────────────────────────────────────────────────────┘
+
+NOTES:
+- [Open] returns to the listing detail context.
+- Remove action keeps the remaining saved list visible.
+- Badge state shows whether the listing is active or unavailable.
+- Loading state uses skeleton cards before content appears.

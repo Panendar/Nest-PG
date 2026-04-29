@@ -1,0 +1,28 @@
+SCREEN: Nearby Search Results Screen (/user/search?mode=nearby)
+===============================================================
+
+┌────────────────────────────────────────────────────┐
+│ My_PG > User > Nearby Results                     │
+├────────────────────────────────────────────────────┤
+│ Radius: [Dropdown ▾ 5 km] [Search Nearby]         │
+│ Around: Gachibowli, Hyderabad                     │
+│ 18 listings found                                 │
+├────────────────────────────────────────────────────┤
+│ ┌────────────────────────────────────────────────┐ │
+│ │ Green Nest PG - 0.8 km                        │ │
+│ │ Rs 9,200/mo | Beds: 1 available               │ │
+│ │ [View Details] [Compare] [Contact Owner]      │ │
+│ └────────────────────────────────────────────────┘ │
+│ ┌────────────────────────────────────────────────┐ │
+│ │ Sai Comfort PG - 1.4 km                        │ │
+│ │ Rs 8,700/mo | Beds: 2 available               │ │
+│ │ [View Details] [Compare] [Contact Owner]      │ │
+│ └────────────────────────────────────────────────┘ │
+│ [Previous]  Page 1 of 2  [Next]                  │
+└────────────────────────────────────────────────────┘
+
+NOTES:
+- If no results, show empty message and [Increase Radius].
+- Cards switch to skeleton rows while loading new radius.
+- [Previous] is disabled on first page.
+- Repeated search clicks are ignored during one request.

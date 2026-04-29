@@ -1,0 +1,23 @@
+{
+  "feature": "saved-listings-optional",
+  "mocks": [
+    {
+      "name": "Saved Listing Detail Return View",
+      "file": "mocks/saved-listing-detail-return-view.txt"
+    },
+    {
+      "name": "Saved Listing Empty State",
+      "file": "mocks/saved-listing-empty-state.txt"
+    },
+    {
+      "name": "Saved Listings Screen",
+      "file": "mocks/saved-listings-screen.txt"
+    }
+  ],
+  "db_tables": [
+    "saved_listings"
+  ],
+  "api_endpoints": [],
+  "components": [],
+  "steps": []
+}

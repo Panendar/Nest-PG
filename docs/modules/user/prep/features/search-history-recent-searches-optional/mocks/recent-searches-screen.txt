@@ -1,0 +1,26 @@
+SCREEN: Recent Searches Screen (/user/recent-searches)
+=====================================================
+
+┌────────────────────────────────────────────────────┐
+│ My_PG > User > Recent Searches                     │
+├────────────────────────────────────────────────────┤
+│ Recent searches                                     │
+│ 4 searches saved                                   │
+│                                                    │
+│ ┌────────────────────────────────────────────────┐ │
+│ │ Hyderabad | 5 km | Available | Price: 8-12k   x│ │
+│ │ Last used: Today, 06:10 PM                    │ │
+│ │ [Open] [Remove]                               │ │
+│ └────────────────────────────────────────────────┘ │
+│ ┌────────────────────────────────────────────────┐ │
+│ │ Hyderabad | 10 km | Nearby | Relevance        x│ │
+│ │ Last used: Yesterday, 08:15 PM                 │ │
+│ │ [Open] [Remove]                               │ │
+│ └────────────────────────────────────────────────┘ │
+└────────────────────────────────────────────────────┘
+
+NOTES:
+- List is ordered most recent first.
+- [Open] restores the prior search context.
+- Remove action updates the list immediately.
+- Loading state uses skeleton rows before content appears.

@@ -63,6 +63,32 @@
                 }
               },
               "status": "approved"
+            },
+            {
+              "id": "t-002",
+              "name": "review",
+              "features": [
+                "contact-owner-from-listing",
+                "empty-state-recovery",
+                "inquiry-confirmation-and-status",
+                "saved-listings-optional",
+                "search-history-recent-searches-optional"
+              ],
+              "steps": {
+                "database": {
+                  "status": "approved"
+                },
+                "backend": {
+                  "status": "approved"
+                },
+                "frontend": {
+                  "status": "approved"
+                },
+                "testing": {
+                  "status": "approved"
+                }
+              },
+              "status": "approved"
             }
           ],
           "tech_stack": {

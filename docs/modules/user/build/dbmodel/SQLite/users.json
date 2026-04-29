@@ -1,0 +1,32 @@
+{
+  "table": "users",
+  "db": "sqlite",
+  "purpose": "Stores authenticated seeker accounts used by the user module.",
+  "important_fields": [
+    {
+      "name": "id",
+      "type": "text",
+      "note": "Primary identifier used by all user-owned records."
+    },
+    {
+      "name": "role",
+      "type": "text",
+      "note": "Must include 'user' for this module's protected actions."
+    },
+    {
+      "name": "email",
+      "type": "text",
+      "note": "Unique login/contact identity."
+    },
+    {
+      "name": "is_active",
+      "type": "integer",
+      "note": "Controls whether account can perform search/contact actions."
+    }
+  ],
+  "relationships": [],
+  "notes": [
+    "Email uniqueness enforced.",
+    "Role-based authorization gates protected user flows."
+  ]
+}

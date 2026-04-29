@@ -1,0 +1,17 @@
+SCREEN: Saved Listing Empty State (/user/saved)
+==============================================
+
+┌────────────────────────────────────────────────────┐
+│ My_PG > User > Saved Listings                      │
+├────────────────────────────────────────────────────┤
+│ You have no saved listings yet.                    │
+│ Save PGs from search or details to revisit later.  │
+│                                                    │
+│ [Continue Browsing]                                │
+└────────────────────────────────────────────────────┘
+
+NOTES:
+- Empty state appears when saved list is blank.
+- [Continue Browsing] returns to the last search context.
+- If the last item is removed, the screen switches here.
+- Hover on CTA shows that it resumes discovery.

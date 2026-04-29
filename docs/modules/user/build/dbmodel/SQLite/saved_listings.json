@@ -1,0 +1,45 @@
+{
+  "table": "saved_listings",
+  "db": "sqlite",
+  "purpose": "Stores user-curated saved listing references for optional revisit workflows.",
+  "important_fields": [
+    {
+      "name": "id",
+      "type": "text",
+      "note": "Primary identifier for saved-item management actions."
+    },
+    {
+      "name": "user_id",
+      "type": "text",
+      "note": "Owner of the saved listing item."
+    },
+    {
+      "name": "listing_id",
+      "type": "text",
+      "note": "Listing reference; unique per user + listing pair."
+    },
+    {
+      "name": "saved_at",
+      "type": "text",
+      "note": "Orders saved items and supports user recall context."
+    }
+  ],
+  "relationships": [
+    {
+      "from_field": "user_id",
+      "to_table": "users",
+      "to_field": "id",
+      "type": "many-to-one"
+    },
+    {
+      "from_field": "listing_id",
+      "to_table": "pg_listings",
+      "to_field": "id",
+      "type": "many-to-one"
+    }
+  ],
+  "notes": [
+    "Enforce unique(user_id, listing_id).",
+    "Soft delete can be used for undo-friendly UX."
+  ]
+}

@@ -1,0 +1,23 @@
+SCREEN: Listing Detail Screen (/user/listings/{listing_id})
+==========================================================
+
+┌────────────────────────────────────────────────────┐
+│ My_PG > User > Listing Details                     │
+├────────────────────────────────────────────────────┤
+│ Sri Lakshmi PG - Madhapur                          │
+│ Status: Active  |  Inquiry: Open                   │
+│ Price: Rs 8,500/mo                                 │
+│                                                    │
+│ Room: Double Sharing                               │
+│ Amenities: Wi-Fi, Laundry, Meals                   │
+│ Move-in: Available from 05 May 2026                │
+│                                                    │
+│ Owner: Ramesh Kumar                                │
+│ [Contact Owner] [Compare] [Back to Results]        │
+└────────────────────────────────────────────────────┘
+
+NOTES:
+- [Contact Owner] is hidden when inquiry is unavailable.
+- Hover on [Contact Owner] shows "Send inquiry" hint.
+- Loading state shows skeleton blocks for listing fields.
+- Back action preserves city/radius/page context.

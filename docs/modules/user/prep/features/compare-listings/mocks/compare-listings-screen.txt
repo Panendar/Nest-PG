@@ -1,0 +1,24 @@
+SCREEN: Compare Listings Screen (/user/compare)
+===============================================
+
+┌────────────────────────────────────────────────────┐
+│ My_PG > User > Compare Listings                    │
+├────────────────────────────────────────────────────┤
+│ Comparing 3 listings  [Back to Results]            │
+├────────────────┬────────────────┬──────────────────┤
+│ Sri Lakshmi PG │ Green Nest PG  │ Sai Comfort PG   │
+│ Rs 8,500/mo    │ Rs 9,100/mo    │ Rs 8,900/mo      │
+│ Dist: 1.2 km   │ Dist: 2.1 km   │ Dist: 1.8 km     │
+│ Beds: 2 avail  │ Beds: 1 avail  │ Beds: 3 avail    │
+│ Wi-Fi: Yes     │ Wi-Fi: Yes     │ Wi-Fi: No        │
+│ Meals: Yes     │ Meals: Yes     │ Meals: Yes       │
+│ [View Details] │ [View Details] │ [View Details]   │
+│ [Contact]      │ [Contact]      │ [Contact]        │
+│ [Remove]       │ [Remove]       │ [Remove]         │
+└────────────────┴────────────────┴──────────────────┘
+
+NOTES:
+- Field order stays identical across all columns.
+- Removing one listing updates grid immediately.
+- If any listing turns unavailable, show badge in that column.
+- Skeleton columns display while compare data is loading.

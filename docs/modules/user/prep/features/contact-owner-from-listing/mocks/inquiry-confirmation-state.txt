@@ -1,0 +1,21 @@
+SCREEN: Inquiry Confirmation (/user/listings/{listing_id})
+==========================================================
+
+┌────────────────────────────────────────────────────┐
+│ My_PG > User > Inquiry Sent                        │
+├────────────────────────────────────────────────────┤
+│ Inquiry sent successfully                           │
+│ For listing: Sri Lakshmi PG - Madhapur             │
+│ To owner: Ramesh Kumar                             │
+│ Sent at: 22 Apr 2026, 06:42 PM                     │
+│                                                    │
+│ We will notify you when the owner responds.        │
+│                                                    │
+│ [Back to Results] [View Listing] [Continue Search] │
+└────────────────────────────────────────────────────┘
+
+NOTES:
+- Confirmation appears only after successful submission.
+- If submit fails, show error alert instead of this state.
+- [Back to Results] restores previous search context.
+- Toast confirmation may appear in addition to this view.

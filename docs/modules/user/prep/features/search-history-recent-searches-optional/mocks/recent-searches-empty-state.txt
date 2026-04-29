@@ -1,0 +1,17 @@
+SCREEN: Recent Searches Empty State (/user/recent-searches)
+==========================================================
+
+┌────────────────────────────────────────────────────┐
+│ My_PG > User > Recent Searches                     │
+├────────────────────────────────────────────────────┤
+│ You have no recent searches yet.                   │
+│ Start a search to see it here later.               │
+│                                                    │
+│ [Start New Search]                                 │
+└────────────────────────────────────────────────────┘
+
+NOTES:
+- Empty state appears when the list has no entries.
+- [Start New Search] returns to the search screen.
+- If the last item is removed, the screen switches here.
+- Hover on CTA shows that it resumes discovery.

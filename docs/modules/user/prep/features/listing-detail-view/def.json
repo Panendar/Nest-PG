@@ -1,0 +1,17 @@
+{
+  "feature": "listing-detail-view",
+  "mocks": [
+    {
+      "name": "Listing Details Screen",
+      "file": "mocks/listing-details-screen.txt"
+    },
+    {
+      "name": "Search Results Screen Return Context",
+      "file": "mocks/search-results-screen-return-context.txt"
+    }
+  ],
+  "db_tables": [],
+  "api_endpoints": [],
+  "components": [],
+  "steps": []
+}

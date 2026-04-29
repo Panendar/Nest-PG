@@ -1,0 +1,28 @@
+SCREEN: Filtered Results List (/user/search?filters&sort)
+=========================================================
+
+┌────────────────────────────────────────────────────┐
+│ My_PG > User > Filtered Results                    │
+├────────────────────────────────────────────────────┤
+│ 14 listings match your filters                     │
+│ Sort: [Dropdown ▾ Price: Low to High]             │
+│ Active: [Within 5 km x] [Available x]              │
+├────────────────────────────────────────────────────┤
+│ ┌────────────────────────────────────────────────┐ │
+│ │ Sri Lakshmi PG - 1.2 km                        │ │
+│ │ Rs 8,500/mo | Beds: 2 available               │ │
+│ │ [View Details] [Compare] [Contact Owner]      │ │
+│ └────────────────────────────────────────────────┘ │
+│ ┌────────────────────────────────────────────────┐ │
+│ │ Green Nest PG - 2.1 km                         │ │
+│ │ Rs 9,100/mo | Beds: 1 available               │ │
+│ │ [View Details] [Compare] [Contact Owner]      │ │
+│ └────────────────────────────────────────────────┘ │
+│ [Previous]  Page 1 of 2  [Next]                  │
+└────────────────────────────────────────────────────┘
+
+NOTES:
+- Removing one chip updates list while keeping other filters.
+- Loading state shows skeleton cards after filter changes.
+- Latest filter action wins if user changes quickly.
+- [Previous]/[Next] disabled on boundary pages.

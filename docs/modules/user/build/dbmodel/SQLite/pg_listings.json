@@ -1,0 +1,54 @@
+{
+  "table": "pg_listings",
+  "db": "sqlite",
+  "purpose": "Stores PG listing records used for search, comparison, and contact eligibility.",
+  "important_fields": [
+    {
+      "name": "id",
+      "type": "text",
+      "note": "Primary listing identifier across all user flows."
+    },
+    {
+      "name": "owner_id",
+      "type": "text",
+      "note": "Links listing to owner account used during inquiry routing."
+    },
+    {
+      "name": "city",
+      "type": "text",
+      "note": "Primary city-search field."
+    },
+    {
+      "name": "lat",
+      "type": "real",
+      "note": "Used for nearby radius search filtering."
+    },
+    {
+      "name": "lng",
+      "type": "real",
+      "note": "Used for nearby radius search filtering."
+    },
+    {
+      "name": "availability_status",
+      "type": "text",
+      "note": "Drives listing detail, empty state recovery, and compare viability."
+    },
+    {
+      "name": "accepting_inquiries",
+      "type": "integer",
+      "note": "Controls contact-owner and inquiry-status behavior."
+    }
+  ],
+  "relationships": [
+    {
+      "from_field": "owner_id",
+      "to_table": "users",
+      "to_field": "id",
+      "type": "many-to-one"
+    }
+  ],
+  "notes": [
+    "Composite indexes recommended for city + availability and geospatial approximation fields.",
+    "Only active/visible listings should be returned to user module views."
+  ]
+}

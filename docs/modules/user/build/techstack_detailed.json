@@ -1,0 +1,31 @@
+{
+  "module": "user",
+  "frontend": {
+    "framework": "React 18",
+    "language": "TypeScript 5",
+    "styling": "Chakra UI styling system",
+    "components": "Chakra UI 2",
+    "state": "React Context + useState",
+    "forms": "react-hook-form 7 + zod 3",
+    "http": "axios 1",
+    "routing": "react-router-dom 6"
+  },
+  "backend": {
+    "framework": "FastAPI 0.11x",
+    "language": "Python 3.12",
+    "orm": "SQLAlchemy 2",
+    "auth": "OAuth2PasswordBearer with JWT bearer tokens",
+    "validation": "Pydantic 2"
+  },
+  "database": {
+    "primary": "SQLite 3",
+    "migrations": "Alembic 1.13+",
+    "cache": "none"
+  },
+  "hosting": {
+    "frontend": "Vercel",
+    "backend": "Azure App Service (Linux)",
+    "database": "SQLite file storage on backend persistent volume"
+  },
+  "integrations": {}
+}

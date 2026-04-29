@@ -1,0 +1,20 @@
+SCREEN: Contact Unavailable State (/user/listings/{listing_id})
+===============================================================
+
+┌────────────────────────────────────────────────────┐
+│ My_PG > User > Contact Owner                       │
+├────────────────────────────────────────────────────┤
+│ Sri Lakshmi PG - Madhapur                          │
+│ Contact status: Not accepting inquiries            │
+│                                                    │
+│ This listing is not accepting inquiries right now. │
+│ You can keep browsing other PG options.            │
+│                                                    │
+│ [Return to Results] [Browse More Listings]         │
+└────────────────────────────────────────────────────┘
+
+NOTES:
+- Contact button is disabled when inquiry is closed.
+- [Browse More Listings] returns to last search context.
+- If user regains access via refresh, state may clear.
+- Loading state appears briefly while status is rechecked.

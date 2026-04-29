@@ -1,0 +1,21 @@
+{
+  "feature": "inquiry-confirmation-and-status",
+  "mocks": [
+    {
+      "name": "Inquiry Confirmation Screen",
+      "file": "mocks/inquiry-confirmation-screen.txt"
+    },
+    {
+      "name": "Inquiry Status Banner State",
+      "file": "mocks/inquiry-status-banner-state.txt"
+    },
+    {
+      "name": "Inquiry Unavailable State",
+      "file": "mocks/inquiry-unavailable-state.txt"
+    }
+  ],
+  "db_tables": [],
+  "api_endpoints": [],
+  "components": [],
+  "steps": []
+}

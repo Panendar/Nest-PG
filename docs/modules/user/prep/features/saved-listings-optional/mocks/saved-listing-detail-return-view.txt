@@ -1,0 +1,19 @@
+SCREEN: Saved Listing Detail Return View (/user/listings/{listing_id})
+======================================================================
+
+┌────────────────────────────────────────────────────┐
+│ My_PG > User > Listing Details                     │
+├────────────────────────────────────────────────────┤
+│ Sri Lakshmi PG - Madhapur                          │
+│ Saved: Yes                                          │
+│ Status: Active | Beds: 2 available                 │
+│                                                    │
+│ [Save Listing] [Open Saved] [Remove Saved]         │
+│ [Back to Results]                                  │
+└────────────────────────────────────────────────────┘
+
+NOTES:
+- Saved indicator remains visible while browsing details.
+- [Save Listing] is disabled or hidden if already saved.
+- [Open Saved] returns to the saved-list context.
+- If listing becomes unavailable, status badge updates on revisit.

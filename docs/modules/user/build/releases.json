@@ -1,0 +1,22 @@
+[
+  {
+    "id": "v1-0",
+    "name": "user",
+    "version": "1.0",
+    "notes": "",
+    "features": [
+      "filter-and-sort-results",
+      "nearby-radius-search",
+      "search-by-city",
+      "listing-detail-view",
+      "compare-listings",
+      "contact-owner-from-listing",
+      "empty-state-recovery",
+      "inquiry-confirmation-and-status",
+      "saved-listings-optional",
+      "search-history-recent-searches-optional"
+    ],
+    "bugs": [],
+    "status": "planning"
+  }
+]

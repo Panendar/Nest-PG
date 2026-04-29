@@ -1,0 +1,21 @@
+{
+  "feature": "filter-and-sort-results",
+  "mocks": [
+    {
+      "name": "Filter And Sort Panel Within Search Results",
+      "file": "mocks/filter-and-sort-panel-within-search-results.txt"
+    },
+    {
+      "name": "Filtered Results List",
+      "file": "mocks/filtered-results-list.txt"
+    },
+    {
+      "name": "No Results State Within Search Results",
+      "file": "mocks/no-results-state-within-search-results.txt"
+    }
+  ],
+  "db_tables": [],
+  "api_endpoints": [],
+  "components": [],
+  "steps": []
+}

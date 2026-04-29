@@ -6,6 +6,11 @@ class TokenRequest(BaseModel):
     password: str
 
 
+class RegisterRequest(BaseModel):
+    email: str
+    password: str
+
+
 class TokenResponse(BaseModel):
     access_token: str
     refresh_token: str
@@ -16,6 +21,13 @@ class TokenResponse(BaseModel):
 class MeResponse(BaseModel):
     model_config = ConfigDict(from_attributes=True)
 
+    id: str
+    email: str
+    role: str
+    is_active: bool
+
+
+class RegisterResponse(BaseModel):
     id: str
     email: str
     role: str

@@ -1,0 +1,27 @@
+SCREEN: Search Results Screen (/user/search return context)
+==========================================================
+
+┌──────────────────────────────────────────────────────┐
+│ My_PG > User > Search Results                        │
+├──────────────────────────────────────────────────────┤
+│ Context: City Hyderabad  |  Radius 5 km  |  Page 2   │
+│ [Input Hyderabad] [Dropdown Radius ▾ 5 km] [Search]  │
+│                                                      │
+│ ┌──────────────────────────────────────────────────┐ │
+│ │ Sri Lakshmi PG - Madhapur                        │ │
+│ │ Rs 8,500/mo | Beds: 3 available                  │ │
+│ │ [View Details] [Compare] [Contact Owner]         │ │
+│ └──────────────────────────────────────────────────┘ │
+│ ┌──────────────────────────────────────────────────┐ │
+│ │ Sai Comfort PG - Hitech City                     │ │
+│ │ Rs 9,100/mo | Beds: 1 available                  │ │
+│ │ [View Details] [Compare] [Contact Owner]         │ │
+│ └──────────────────────────────────────────────────┘ │
+│ [Previous]  Page 2 of 4  [Next]                     │
+└──────────────────────────────────────────────────────┘
+
+NOTES:
+- Returned context line appears only after back navigation.
+- Hover on [View Details] shows listing title tooltip.
+- Empty results show message with [Try Another Search].
+- Pagination buttons disable at first/last page.

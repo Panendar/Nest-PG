@@ -1,0 +1,23 @@
+SCREEN: Contact Owner Form (/user/listings/{listing_id})
+========================================================
+
+┌────────────────────────────────────────────────────┐
+│ My_PG > User > Contact Owner                       │
+├────────────────────────────────────────────────────┤
+│ Listing: Sri Lakshmi PG - Madhapur                 │
+│ Owner: Ramesh Kumar                                │
+├────────────────────────────────────────────────────┤
+│ Full Name: [Input Priya Sharma]                    │
+│ Phone:     [Input +91 98765 43210]                 │
+│ Move-in:   [Input 2026-05-15]                      │
+│ Message:   [Input Need a room from mid-May.]       │
+│                                                    │
+│ [Send Inquiry] [Cancel]                            │
+│ Validation: Enter a valid phone number.            │
+└────────────────────────────────────────────────────┘
+
+NOTES:
+- Validation text appears only after invalid submit.
+- [Send Inquiry] shows loading and disables on submit.
+- Closing modal without submit creates no inquiry.
+- Network error keeps entered values for retry.

@@ -1,0 +1,26 @@
+SCREEN: Search Results Screen (/user/search)
+===========================================
+
+┌────────────────────────────────────────────────────┐
+│ My_PG > User > Search Results                      │
+├────────────────────────────────────────────────────┤
+│ City: [Input Hyderabad]  Radius: [Dropdown ▾ 5 km] │
+│ Active: [Available x] [Within 5 km x]              │
+│ Compare: 2 selected (max 4)  [Compare Now]         │
+├────────────────────────────────────────────────────┤
+│ ┌────────────────────────────────────────────────┐ │
+│ │ [x] Sri Lakshmi PG    Rs 8,500    1.2 km      │ │
+│ │ Beds: 2 available  [View] [Contact Owner]     │ │
+│ └────────────────────────────────────────────────┘ │
+│ ┌────────────────────────────────────────────────┐ │
+│ │ [x] Green Nest PG     Rs 9,100    2.1 km      │ │
+│ │ Beds: 1 available  [View] [Contact Owner]     │ │
+│ └────────────────────────────────────────────────┘ │
+│ [Previous]  Page 1 of 3  [Next]                  │
+└────────────────────────────────────────────────────┘
+
+NOTES:
+- [Compare Now] is enabled only when 2-4 are selected.
+- Duplicate selection does not increase selected count.
+- If selection exceeds 4, show limit message and block add.
+- Loading state keeps selected checkboxes visible.

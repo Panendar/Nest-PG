@@ -1,0 +1,21 @@
+SCREEN: Filter and Sort Panel (/user/search)
+===========================================
+
+┌────────────────────────────────────────────────────┐
+│ My_PG > User > Search Results                      │
+├────────────────────────────────────────────────────┤
+│ Filters                                             │
+│ Price: [Input 7000] to [Input 12000]               │
+│ Availability: [Dropdown ▾ Available]               │
+│ Distance: [Dropdown ▾ Within 5 km]                 │
+│ Sort: [Dropdown ▾ Price: Low to High]              │
+│                                                    │
+│ Active: [Price 7000-12000 x] [Available x]         │
+│ [Apply Filters] [Reset All]                        │
+└────────────────────────────────────────────────────┘
+
+NOTES:
+- Sort dropdown options: relevance, price, nearest, newest.
+- [Apply Filters] disabled until at least one change is made.
+- Invalid price range shows inline validation under inputs.
+- [Reset All] restores default search result ordering.

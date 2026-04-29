@@ -1,0 +1,23 @@
+{
+  "feature": "search-history-recent-searches-optional",
+  "mocks": [
+    {
+      "name": "Recent Searches Empty State",
+      "file": "mocks/recent-searches-empty-state.txt"
+    },
+    {
+      "name": "Recent Searches Screen",
+      "file": "mocks/recent-searches-screen.txt"
+    },
+    {
+      "name": "Search Context Restore View",
+      "file": "mocks/search-context-restore-view.txt"
+    }
+  ],
+  "db_tables": [
+    "recent_searches"
+  ],
+  "api_endpoints": [],
+  "components": [],
+  "steps": []
+}

@@ -1,0 +1,25 @@
+SCREEN: Listing Details Screen (/user/listings/{listing_id})
+===========================================================
+
+┌──────────────────────────────────────────────────────┐
+│ My_PG > User > Search Results > Listing Details     │
+├──────────────────────────────────────────────────────┤
+│ Green Nest PG - Gachibowli                          │
+│ Status: Active  |  Distance: 0.8 km                 │
+│ Price: Rs 9,200/mo                                  │
+│                                                      │
+│ Room Type: Double Sharing                           │
+│ Move-in: 05 May 2026                                │
+│ Amenities: Wi-Fi, Laundry, Meals                    │
+│                                                      │
+│ Owner: Kavya Reddy                                  │
+│ Phone: +91 91234 56789                              │
+│                                                      │
+│ [Back to Results] [Compare] [Contact Owner]         │
+└──────────────────────────────────────────────────────┘
+
+NOTES:
+- [Contact Owner] is hidden when status is unavailable.
+- [Back to Results] restores prior city/radius/page context.
+- Loading state shows skeleton blocks before details appear.
+- If listing missing, show unavailable alert and return CTA.

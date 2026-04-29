@@ -19,6 +19,9 @@ def _stable_uuid(name: str) -> str:
 def _ensure_user(db, email: str, password: str, role: str) -> User:
     existing_user = db.scalar(select(User).where(User.email == email))
     if existing_user:
+        existing_user.password_hash = _hash_password(password)
+        existing_user.role = role
+        existing_user.is_active = True
         return existing_user
 
     user = User(

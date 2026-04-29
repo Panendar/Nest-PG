@@ -1,0 +1,25 @@
+SCREEN: Listing Details Screen (/user/listings/{listing_id})
+============================================================
+
+┌──────────────────────────────────────────────────────┐
+│ My_PG > User > Search Results > Listing Details      │
+├──────────────────────────────────────────────────────┤
+│ Sri Lakshmi PG - Madhapur                            │
+│ Status: Active  |  City: Hyderabad                   │
+│ Price: Rs 8,500/mo  |  Distance: 1.2 km              │
+│                                                      │
+│ Room Type: Double Sharing                            │
+│ Amenities: Wi-Fi, Laundry, Meals                     │
+│ Move-in: Available from 01 May 2026                  │
+│                                                      │
+│ Owner: Ramesh Kumar                                  │
+│ Contact: +91 98765 43210                             │
+│                                                      │
+│ [Back to Results] [Compare] [Contact Owner]          │
+└──────────────────────────────────────────────────────┘
+
+NOTES:
+- If listing becomes unavailable, show notice and disable contact.
+- [Back to Results] preserves previous city and page context.
+- Contact action requires active session; expired session redirects.
+- On fetch failure, show retry alert with [Try Again].

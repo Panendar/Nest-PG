@@ -1,0 +1,22 @@
+SCREEN: Compare Minimum Selection Prompt (/user/search)
+======================================================
+
+┌────────────────────────────────────────────────────┐
+│ My_PG > User > Search Results                      │
+├────────────────────────────────────────────────────┤
+│ Compare: 1 selected (need at least 2)              │
+│ [Compare Now]                                      │
+├────────────────────────────────────────────────────┤
+│ Select at least two listings to compare.           │
+│ Add one more listing from the results below.       │
+│                                                    │
+│ [Clear Selection] [Continue Browsing]              │
+│                                                    │
+│ Recently selected: Sri Lakshmi PG                  │
+└────────────────────────────────────────────────────┘
+
+NOTES:
+- Prompt appears only when compare is attempted with < 2.
+- [Compare Now] remains disabled until valid selection.
+- If selection becomes 2+, prompt hides automatically.
+- Session expiry shows sign-in message before compare.

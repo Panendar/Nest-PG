@@ -1,0 +1,23 @@
+{
+  "feature": "contact-owner-from-listing",
+  "mocks": [
+    {
+      "name": "Contact Owner Form Modal Panel",
+      "file": "mocks/contact-owner-form-modal-panel.txt"
+    },
+    {
+      "name": "Inquiry Confirmation State",
+      "file": "mocks/inquiry-confirmation-state.txt"
+    },
+    {
+      "name": "Listing Detail Screen With Contact Entry",
+      "file": "mocks/listing-detail-screen-with-contact-entry.txt"
+    }
+  ],
+  "db_tables": [
+    "contacts"
+  ],
+  "api_endpoints": [],
+  "components": [],
+  "steps": []
+}

@@ -1,0 +1,54 @@
+{
+  "table": "recent_searches",
+  "db": "sqlite",
+  "purpose": "Stores optional user recent-search context for quick search restoration.",
+  "important_fields": [
+    {
+      "name": "id",
+      "type": "text",
+      "note": "Primary identifier for recent-search operations."
+    },
+    {
+      "name": "user_id",
+      "type": "text",
+      "note": "Owner of the recent search history entry."
+    },
+    {
+      "name": "city",
+      "type": "text",
+      "note": "Restores city-based search context."
+    },
+    {
+      "name": "radius_km",
+      "type": "integer",
+      "note": "Restores nearby search context when present."
+    },
+    {
+      "name": "filters_json",
+      "type": "text",
+      "note": "Serialized filter selections used in restoration."
+    },
+    {
+      "name": "sort",
+      "type": "text",
+      "note": "Restores result sort ordering."
+    },
+    {
+      "name": "searched_at",
+      "type": "text",
+      "note": "Used for most-recent-first ordering and retention rules."
+    }
+  ],
+  "relationships": [
+    {
+      "from_field": "user_id",
+      "to_table": "users",
+      "to_field": "id",
+      "type": "many-to-one"
+    }
+  ],
+  "notes": [
+    "Collapse duplicates by moving existing context to newest position.",
+    "Apply bounded retention (for example, top N entries per user)."
+  ]
+}

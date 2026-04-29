@@ -1,0 +1,22 @@
+SCREEN: Inquiry Confirmation Screen (/user/listings/{listing_id})
+================================================================
+
+┌────────────────────────────────────────────────────┐
+│ My_PG > User > Inquiry Confirmation                │
+├────────────────────────────────────────────────────┤
+│ Inquiry sent successfully                           │
+│ Listing: Sri Lakshmi PG - Madhapur                  │
+│ Contact: Ramesh Kumar                               │
+│ Sent at: 22 Apr 2026, 06:42 PM                      │
+│                                                    │
+│ Your message has been sent.                         │
+│ We will notify you if the owner responds.          │
+│                                                    │
+│ [View Listing] [Return to Browse]                  │
+└────────────────────────────────────────────────────┘
+
+NOTES:
+- Confirmation only appears after a successful submission.
+- [View Listing] preserves the listing context.
+- [Return to Browse] restores the last search context.
+- Loading state shows a confirmation skeleton before data appears.

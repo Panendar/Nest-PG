@@ -1,10 +1,12 @@
-import { Box, Flex, Heading, Link, Text, VStack } from "@chakra-ui/react";
+import { Box, Button, Flex, Heading, HStack, Link, Text, VStack } from "@chakra-ui/react";
 import { Link as RouterLink, Outlet, useLocation } from "react-router-dom";
 
 import { getModuleBasePath, readLastSearchContext } from "../utils/navigation";
+import { useAuth } from "../state/AuthContext";
 
 export function AppLayout() {
   const location = useLocation();
+  const { user, logout } = useAuth();
   const basePath = getModuleBasePath(location.pathname);
   const navItems = [
     { label: "Search", to: readLastSearchContext(`${basePath}/search`), matchPrefix: `${basePath}/search` },
@@ -14,22 +16,24 @@ export function AppLayout() {
   ];
 
   return (
-    <Flex minH="100vh" bgGradient="linear(to-br, #f7f4ef 0%, #f6faf8 55%, #eef2ff 100%)">
+    <Flex minH="100vh" bg="surface.canvas">
       <Box
         as="aside"
-        w={{ base: "88px", md: "280px" }}
-        bg="rgba(255,255,255,0.82)"
-        backdropFilter="blur(16px)"
+        w={{ base: "96px", md: "300px" }}
+        bg="surface.panel"
+        backdropFilter="blur(10px)"
         borderRightWidth="1px"
-        borderColor="blackAlpha.100"
+        borderColor="surface.border"
         p={5}
       >
-        <Heading size="sm" mb={2} letterSpacing="0.08em" textTransform="uppercase">
-          My_PG
-        </Heading>
-        <Text fontSize="sm" color="gray.500" mb={8}>
-          User discovery workspace
-        </Text>
+        <Box rounded="2xl" bg="brand.50" borderWidth="1px" borderColor="brand.200" p={4} mb={8}>
+          <Heading size="sm" mb={2} letterSpacing="0.08em" textTransform="uppercase" color="brand.800">
+            My_PG
+          </Heading>
+          <Text fontSize="sm" color="brand.700">
+            Discovery Workspace
+          </Text>
+        </Box>
         <VStack align="stretch" spacing={2}>
           {navItems.map((item) => (
             <Link
@@ -39,11 +43,11 @@ export function AppLayout() {
               p={3}
               rounded="xl"
               borderWidth="1px"
-              borderColor={location.pathname.startsWith(item.matchPrefix) ? "blue.400" : "transparent"}
-              bg={location.pathname.startsWith(item.matchPrefix) ? "blue.50" : "transparent"}
-              color={location.pathname.startsWith(item.matchPrefix) ? "blue.700" : "gray.700"}
+              borderColor={location.pathname.startsWith(item.matchPrefix) ? "brand.400" : "transparent"}
+              bg={location.pathname.startsWith(item.matchPrefix) ? "brand.50" : "transparent"}
+              color={location.pathname.startsWith(item.matchPrefix) ? "brand.800" : "gray.700"}
               fontWeight={location.pathname.startsWith(item.matchPrefix) ? "semibold" : "medium"}
-              _hover={{ bg: "blue.50", textDecoration: "none" }}
+              _hover={{ bg: "brand.100", textDecoration: "none" }}
             >
               {item.label}
             </Link>
@@ -51,6 +55,19 @@ export function AppLayout() {
         </VStack>
       </Box>
       <Box as="main" flex="1" p={{ base: 4, md: 8 }}>
+        <HStack justify="space-between" align="center" mb={6}>
+          <Box>
+            <Text fontSize="sm" color="gray.500">
+              Signed in as
+            </Text>
+            <Text fontWeight="semibold" color="gray.700">
+              {user?.email ?? "user"}
+            </Text>
+          </Box>
+          <Button variant="outline" onClick={logout}>
+            Sign out
+          </Button>
+        </HStack>
         <Outlet />
       </Box>
     </Flex>

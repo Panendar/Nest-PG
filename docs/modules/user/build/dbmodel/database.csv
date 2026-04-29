@@ -1,0 +1,6 @@
+table_name,purpose,important_fields
+users,Stores authenticated seeker accounts used by the user module.,id;role;email;is_active
+pg_listings,Stores PG listing records used for search comparison and contact eligibility.,id;owner_id;city;lat;lng;availability_status;accepting_inquiries
+contacts,Stores user inquiries sent to listing owners from listing views.,id;user_id;listing_id;status;message
+saved_listings,Stores user-curated saved listing references for optional revisit workflows.,id;user_id;listing_id;saved_at
+recent_searches,Stores optional user recent-search context for quick search restoration.,id;user_id;city;radius_km;filters_json;sort;searched_at

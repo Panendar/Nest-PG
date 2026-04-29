@@ -1,0 +1,20 @@
+SCREEN: Inquiry Status Banner/State (/user/listings/{listing_id})
+==================================================================
+
+┌────────────────────────────────────────────────────┐
+│ My_PG > User > Listing Details                     │
+├────────────────────────────────────────────────────┤
+│ Sri Lakshmi PG - Madhapur                          │
+│ Inquiry status: Open                               │
+│ Last inquiry: 22 Apr 2026, 06:42 PM                │
+│                                                    │
+│ You can still follow up on this listing.           │
+│                                                    │
+│ [Contact Owner Again] [View Listing]               │
+└────────────────────────────────────────────────────┘
+
+NOTES:
+- Banner appears when user revisits a listing with inquiry history.
+- If status changes to closed, the status text updates on refresh.
+- [Contact Owner Again] is disabled when inquiries are closed.
+- If there are multiple inquiries, the latest confirmed one is shown.

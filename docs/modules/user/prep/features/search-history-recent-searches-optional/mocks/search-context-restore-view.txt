@@ -1,0 +1,20 @@
+SCREEN: Search Context Restore View (/user/search)
+==================================================
+
+┌────────────────────────────────────────────────────┐
+│ My_PG > User > Search                              │
+├────────────────────────────────────────────────────┤
+│ Restored search                                    │
+│ City: [Input Hyderabad]                            │
+│ Radius: [Dropdown ▾ 5 km]                          │
+│ Filters: [Available x] [Price 8-12k x]             │
+│ Sort: [Dropdown ▾ Relevance]                      │
+│                                                    │
+│ [Search Now] [Save Search]                         │
+└────────────────────────────────────────────────────┘
+
+NOTES:
+- Restored values come from the selected recent search.
+- Incomplete context restores what is available and prompts refinement.
+- Search Now reruns the saved context immediately.
+- Save Search is optional and may be hidden in some states.

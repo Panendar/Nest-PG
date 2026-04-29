@@ -1,0 +1,50 @@
+{
+  "table": "contacts",
+  "db": "sqlite",
+  "purpose": "Stores user inquiries sent to listing owners from listing views.",
+  "important_fields": [
+    {
+      "name": "id",
+      "type": "text",
+      "note": "Primary inquiry identifier used for confirmation/status views."
+    },
+    {
+      "name": "user_id",
+      "type": "text",
+      "note": "Identifies the user who submitted the inquiry."
+    },
+    {
+      "name": "listing_id",
+      "type": "text",
+      "note": "Associates inquiry to exactly one listing."
+    },
+    {
+      "name": "status",
+      "type": "text",
+      "note": "Tracks inquiry lifecycle such as confirmed/open/closed."
+    },
+    {
+      "name": "message",
+      "type": "text",
+      "note": "User inquiry content with validation constraints."
+    }
+  ],
+  "relationships": [
+    {
+      "from_field": "user_id",
+      "to_table": "users",
+      "to_field": "id",
+      "type": "many-to-one"
+    },
+    {
+      "from_field": "listing_id",
+      "to_table": "pg_listings",
+      "to_field": "id",
+      "type": "many-to-one"
+    }
+  ],
+  "notes": [
+    "Inquiry should be blocked when listing is not accepting inquiries.",
+    "Use dedupe rule for rapid duplicate submissions."
+  ]
+}

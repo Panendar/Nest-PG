@@ -1,0 +1,19 @@
+SCREEN: Empty Search Results State (/user/search)
+=================================================
+
+┌────────────────────────────────────────────────────┐
+│ My_PG > User > Search Results                      │
+├────────────────────────────────────────────────────┤
+│ City: Hyderabad  Radius: [Dropdown ▾ 5 km]        │
+│                                                    │
+│ No listings matched your search.                   │
+│ Try widening your radius or changing the city.     │
+│                                                    │
+│ [Broaden Search] [Clear Filters]                   │
+└────────────────────────────────────────────────────┘
+
+NOTES:
+- [Broaden Search] keeps city and expands radius.
+- Clear action returns to the last usable search context.
+- Empty state appears only when no listings are returned.
+- Hover on actions shows short helper text.

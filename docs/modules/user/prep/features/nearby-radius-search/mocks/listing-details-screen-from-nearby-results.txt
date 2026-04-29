@@ -1,0 +1,26 @@
+SCREEN: Listing Details Screen (/user/listings/{listing_id})
+============================================================
+
+┌────────────────────────────────────────────────────┐
+│ My_PG > User > Nearby Results > Listing Details   │
+├────────────────────────────────────────────────────┤
+│ Green Nest PG                                     │
+│ Status: Active | Distance: 0.8 km                 │
+│ City: Hyderabad | Area: Gachibowli                │
+│ Price: Rs 9,200/month                             │
+│                                                    │
+│ Room: Double Sharing                              │
+│ Amenities: Wi-Fi, Laundry, Meals                  │
+│ Move-in: Available from 05 May 2026               │
+│                                                    │
+│ Owner: Kavya Reddy                                │
+│ Phone: +91 91234 56789                            │
+│                                                    │
+│ [Back to Results] [Compare] [Contact Owner]       │
+└────────────────────────────────────────────────────┘
+
+NOTES:
+- [Back to Results] restores prior radius and page.
+- If listing removed, show unavailable notice and hide contact.
+- If session expired, show sign-in prompt before actions.
+- On fetch failure, show retry alert with [Try Again].

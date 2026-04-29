@@ -1,0 +1,29 @@
+{
+  "feature": "empty-state-recovery",
+  "mocks": [
+    {
+      "name": "Compare Minimum Selection Prompt",
+      "file": "mocks/compare-minimum-selection-prompt.txt"
+    },
+    {
+      "name": "Contact Unavailable State",
+      "file": "mocks/contact-unavailable-state.txt"
+    },
+    {
+      "name": "Empty Filtered Results State",
+      "file": "mocks/empty-filtered-results-state.txt"
+    },
+    {
+      "name": "Empty Search Results State",
+      "file": "mocks/empty-search-results-state.txt"
+    },
+    {
+      "name": "Unavailable Listing State",
+      "file": "mocks/unavailable-listing-state.txt"
+    }
+  ],
+  "db_tables": [],
+  "api_endpoints": [],
+  "components": [],
+  "steps": []
+}

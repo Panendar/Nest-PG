@@ -1,0 +1,20 @@
+SCREEN: Empty Filtered Results State (/user/search?filters)
+==========================================================
+
+┌────────────────────────────────────────────────────┐
+│ My_PG > User > Filtered Results                    │
+├────────────────────────────────────────────────────┤
+│ Active: [Price 15000-18000 x] [Within 1 km x]      │
+│ Sort: [Dropdown ▾ Relevance]                       │
+│                                                    │
+│ No listings match your current filters.            │
+│ Try removing one filter or widening your distance. │
+│                                                    │
+│ [Clear Filters] [Broaden Search]                   │
+└────────────────────────────────────────────────────┘
+
+NOTES:
+- Active filter chips stay visible until user clears them.
+- [Broaden Search] may widen distance without clearing filters.
+- Loading state shows skeleton results before this appears.
+- Multiple actions may be shown, but first click determines next state.

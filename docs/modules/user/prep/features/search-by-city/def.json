@@ -1,0 +1,21 @@
+{
+  "feature": "search-by-city",
+  "mocks": [
+    {
+      "name": "Listing Details Screen",
+      "file": "mocks/listing-details-screen.txt"
+    },
+    {
+      "name": "Search Results Screen",
+      "file": "mocks/search-results-screen.txt"
+    },
+    {
+      "name": "Search Screen User Home",
+      "file": "mocks/search-screen-user-home.txt"
+    }
+  ],
+  "db_tables": [],
+  "api_endpoints": [],
+  "components": [],
+  "steps": []
+}

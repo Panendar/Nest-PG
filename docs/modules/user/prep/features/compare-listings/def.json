@@ -1,0 +1,21 @@
+{
+  "feature": "compare-listings",
+  "mocks": [
+    {
+      "name": "Compare Listings Screen",
+      "file": "mocks/compare-listings-screen.txt"
+    },
+    {
+      "name": "Compare Minimum Selection Prompt In Page State",
+      "file": "mocks/compare-minimum-selection-prompt-in-page-state.txt"
+    },
+    {
+      "name": "Search Results Screen Selection Context",
+      "file": "mocks/search-results-screen-selection-context.txt"
+    }
+  ],
+  "db_tables": [],
+  "api_endpoints": [],
+  "components": [],
+  "steps": []
+}

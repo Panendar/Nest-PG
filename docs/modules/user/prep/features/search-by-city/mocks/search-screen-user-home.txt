@@ -1,0 +1,24 @@
+SCREEN: Search Screen (User Home) (/user/search)
+============================================
+
+┌──────────────────────────────────────────────────────┐
+│ My_PG > User > Search By City                       │
+├──────────────────────────────────────────────────────┤
+│ Find PGs by city                                    │
+│ [Input Hyderabad]  [Search]  [Use Nearby Location]  │
+│                                                      │
+│ Quick refine                                         │
+│ [Dropdown Radius ▾ 5 km] [Dropdown Sort ▾ Relevance]│
+│                                                      │
+│ Recent cities                                        │
+│ [Hyderabad] [Bengaluru] [Pune]                      │
+│                                                      │
+│ Validation area                                      │
+│ Please enter a city to search.                      │
+└──────────────────────────────────────────────────────┘
+
+NOTES:
+- Search button hover shows enabled state when city is valid.
+- Pressing Enter in city input triggers the same action as [Search].
+- Validation text appears only after submit with blank city.
+- Nearby action prefills city if permission is granted.

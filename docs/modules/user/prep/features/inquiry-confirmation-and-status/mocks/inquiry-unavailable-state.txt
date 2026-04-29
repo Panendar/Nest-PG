@@ -1,0 +1,20 @@
+SCREEN: Inquiry Unavailable State (/user/listings/{listing_id})
+===============================================================
+
+┌────────────────────────────────────────────────────┐
+│ My_PG > User > Listing Details                     │
+├────────────────────────────────────────────────────┤
+│ Sri Lakshmi PG - Madhapur                          │
+│ Inquiry status: Closed                             │
+│                                                    │
+│ This listing is not accepting new inquiries.       │
+│ Please return to search results and choose another.│
+│                                                    │
+│ [Return to Browse] [View Similar Listings]         │
+└────────────────────────────────────────────────────┘
+
+NOTES:
+- Contact actions are hidden when the listing is closed.
+- [View Similar Listings] returns to the previous search context.
+- If the listing reopens later, the status may change on revisit.
+- Sign-in prompt appears if the session expires before actions.

@@ -1,0 +1,27 @@
+SCREEN: Search Results Screen (/user/search?city=hyderabad)
+===========================================================
+
+┌──────────────────────────────────────────────────────┐
+│ My_PG > User > Search Results                        │
+├──────────────────────────────────────────────────────┤
+│ City: [Input Hyderabad] [Search]                     │
+│ 42 listings found  [Dropdown Sort ▾ Price: Low-High] │
+├──────────────────────────────────────────────────────┤
+│ ┌──────────────────────────────────────────────────┐ │
+│ │ Sri Lakshmi PG - Madhapur                        │ │
+│ │ Rs 8,500/mo  |  1.2 km  |  Beds: 3 available    │ │
+│ │ [View Details] [Compare] [Contact Owner]         │ │
+│ └──────────────────────────────────────────────────┘ │
+│ ┌──────────────────────────────────────────────────┐ │
+│ │ Green Nest PG - Gachibowli                       │ │
+│ │ Rs 9,200/mo  |  2.8 km  |  Beds: 1 available    │ │
+│ │ [View Details] [Compare] [Contact Owner]         │ │
+│ └──────────────────────────────────────────────────┘ │
+│ [Previous]  Page 1 of 3  [Next]                     │
+└──────────────────────────────────────────────────────┘
+
+NOTES:
+- While loading, cards are replaced by skeleton rows.
+- If zero results, show message and [Try Another Search].
+- Disabled [Previous] on first page and [Next] on last page.
+- Duplicate search clicks are ignored while request is in-flight.

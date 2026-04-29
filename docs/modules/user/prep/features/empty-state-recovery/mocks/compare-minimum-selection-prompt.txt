@@ -1,0 +1,19 @@
+SCREEN: Compare Minimum Selection Prompt (/user/search)
+======================================================
+
+┌────────────────────────────────────────────────────┐
+│ My_PG > User > Search Results                      │
+├────────────────────────────────────────────────────┤
+│ Compare: 1 selected (need at least 2)              │
+├────────────────────────────────────────────────────┤
+│ Select one more listing to compare.                │
+│ You can compare up to 4 listings at a time.        │
+│                                                    │
+│ [Continue Browsing] [Clear Selection]              │
+└────────────────────────────────────────────────────┘
+
+NOTES:
+- Prompt appears only after compare attempt with < 2 listings.
+- [Clear Selection] removes all selected items.
+- [Continue Browsing] returns to the results list.
+- Selection count updates as soon as user adds another listing.

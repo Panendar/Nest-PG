@@ -1,0 +1,21 @@
+SCREEN: Nearby Search Screen (User Home) (/user/search)
+======================================================
+
+┌────────────────────────────────────────────────────┐
+│ My_PG > User > Nearby Search                      │
+├────────────────────────────────────────────────────┤
+│ Find PGs near you                                 │
+│ Location: [Use Current Location] [Set Manually]   │
+│ Current: Gachibowli, Hyderabad                    │
+│ Radius: [Dropdown ▾ 5 km]                         │
+│ [Search Nearby]                                   │
+│                                                    │
+│ Quick options: [1 km] [2 km] [5 km] [10 km]       │
+│ Validation: Please select a search radius.        │
+└────────────────────────────────────────────────────┘
+
+NOTES:
+- Radius dropdown options: 1, 2, 5, 10, 15, 20 km.
+- Validation text appears only after invalid submit.
+- While searching, [Search Nearby] shows loading state.
+- If location permission denied, show enable-location hint.

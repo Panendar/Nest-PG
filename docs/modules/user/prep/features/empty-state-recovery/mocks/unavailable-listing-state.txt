@@ -1,0 +1,20 @@
+SCREEN: Unavailable Listing State (/user/listings/{listing_id})
+===============================================================
+
+┌────────────────────────────────────────────────────┐
+│ My_PG > User > Listing Details                     │
+├────────────────────────────────────────────────────┤
+│ Sri Lakshmi PG - Madhapur                          │
+│ Status: No longer active                           │
+│                                                    │
+│ This listing is no longer available.               │
+│ Please return to search results and choose another.│
+│                                                    │
+│ [Return to Results] [View Other Listings]          │
+└────────────────────────────────────────────────────┘
+
+NOTES:
+- Contact and compare actions are hidden when listing is inactive.
+- If listing status changes while open, state updates immediately.
+- [View Other Listings] preserves the previous search context.
+- Error state is shown before any blocked action can be taken.

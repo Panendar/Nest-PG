@@ -1,0 +1,21 @@
+{
+  "feature": "nearby-radius-search",
+  "mocks": [
+    {
+      "name": "Listing Details Screen From Nearby Results",
+      "file": "mocks/listing-details-screen-from-nearby-results.txt"
+    },
+    {
+      "name": "Nearby Search Results Screen",
+      "file": "mocks/nearby-search-results-screen.txt"
+    },
+    {
+      "name": "Nearby Search Screen User Home",
+      "file": "mocks/nearby-search-screen-user-home.txt"
+    }
+  ],
+  "db_tables": [],
+  "api_endpoints": [],
+  "components": [],
+  "steps": []
+}
