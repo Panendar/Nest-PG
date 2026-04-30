@@ -575,31 +575,31 @@ export function DashboardPage() {
       <Box
         rounded="3xl"
         p={{ base: 5, md: 8 }}
-        bgGradient="linear(135deg, rgba(255,255,255,0.92), rgba(244,247,255,0.88))"
+        bgGradient="linear(135deg, rgba(255,255,255,0.98), rgba(235,243,255,0.95) 58%, rgba(255,247,232,0.92))"
         borderWidth="1px"
-        borderColor="blackAlpha.100"
-        boxShadow="0 24px 60px rgba(15,23,42,0.08)"
+        borderColor="surface.border"
+        boxShadow="0 24px 60px rgba(15,23,42,0.10)"
       >
         <HStack justify="space-between" align="start" spacing={6} flexWrap="wrap">
           <Box maxW="3xl">
             <Heading size="xl" mb={3} letterSpacing="-0.03em">
               Search PGs the way users actually decide.
             </Heading>
-            <Text color="gray.600" fontSize="lg">
+            <Text color="gray.700" fontSize="lg">
               Search by city or around your current location, refine the list, compare options, and open a listing when it feels close.
             </Text>
           </Box>
           <Box minW={{ base: "full", md: "240px" }}>
-            <Card bg="white" borderRadius="2xl" borderColor="blackAlpha.100" borderWidth="1px">
+            <Card bg="surface.elevated" borderRadius="2xl" borderColor="surface.border" borderWidth="1px">
               <CardBody>
-                <Text fontSize="sm" color="gray.500" mb={1}>
+                <Text fontSize="sm" color="gray.600" mb={1}>
                   Current search state
                 </Text>
                 <Heading size="md">{resultCountLabel}</Heading>
-                <Text color="gray.600" mt={2}>
+                <Text color="gray.700" mt={2}>
                   {hasSearch ? "You can keep refining without leaving the page." : "Start with a city or nearby radius."}
                 </Text>
-                <Button as={RouterLink} to={`${basePath}/recent-searches`} size="sm" mt={3} variant="ghost" colorScheme="blue">
+                <Button as={RouterLink} to={`${basePath}/recent-searches`} size="sm" mt={3} variant="ghost">
                   Open recent searches
                 </Button>
               </CardBody>
@@ -609,7 +609,7 @@ export function DashboardPage() {
       </Box>
 
       <SimpleGrid columns={{ base: 1, lg: 2 }} spacing={6}>
-        <Card borderRadius="2xl" borderWidth="1px" borderColor="blackAlpha.100" boxShadow="0 18px 44px rgba(15,23,42,0.06)">
+        <Card borderRadius="2xl" borderWidth="1px" borderColor="surface.border" boxShadow="0 18px 44px rgba(15,23,42,0.06)">
           <CardBody>
             <form onSubmit={handleCitySubmit}>
               <VStack align="stretch" spacing={4}>
@@ -617,7 +617,7 @@ export function DashboardPage() {
                   <Heading size="md" mb={2}>
                     Search by city
                   </Heading>
-                  <Text color="gray.600">Enter a city and jump directly into nearby results for that location.</Text>
+                  <Text color="gray.700">Enter a city and jump directly into nearby results for that location.</Text>
                 </Box>
                 {validationMessage ? (
                   <Alert status="warning" rounded="xl">
@@ -636,7 +636,7 @@ export function DashboardPage() {
                     </Button>
                   ))}
                 </HStack>
-                <Button type="submit" colorScheme="blue" alignSelf="start">
+                <Button type="submit" alignSelf="start">
                   Search city
                 </Button>
               </VStack>
@@ -644,14 +644,14 @@ export function DashboardPage() {
           </CardBody>
         </Card>
 
-        <Card borderRadius="2xl" borderWidth="1px" borderColor="blackAlpha.100" boxShadow="0 18px 44px rgba(15,23,42,0.06)">
+        <Card borderRadius="2xl" borderWidth="1px" borderColor="surface.border" boxShadow="0 18px 44px rgba(15,23,42,0.06)">
           <CardBody>
             <VStack align="stretch" spacing={4}>
               <Box>
                 <Heading size="md" mb={2}>
                   Nearby search
                 </Heading>
-                <Text color="gray.600">Use a radius and location context to find listings near where you already are.</Text>
+                <Text color="gray.700">Use a radius and location context to find listings near where you already are.</Text>
               </Box>
               {locationMessage ? (
                 <Alert status="warning" rounded="xl">
@@ -659,8 +659,8 @@ export function DashboardPage() {
                   {locationMessage}
                 </Alert>
               ) : null}
-              <Box rounded="xl" p={4} bg="blue.50" borderWidth="1px" borderColor="blue.100">
-                <Text fontSize="sm" color="gray.500">
+              <Box rounded="xl" p={4} bg="brand.50" borderWidth="1px" borderColor="brand.200">
+                <Text fontSize="sm" color="gray.600">
                   Location context
                 </Text>
                 <HStack justify="space-between" align="start" mt={1}>
@@ -685,7 +685,7 @@ export function DashboardPage() {
                   ))}
                 </Select>
               </FormControl>
-              <Button type="button" colorScheme="teal" alignSelf="start" onClick={handleNearbySubmit}>
+              <Button type="button" alignSelf="start" onClick={handleNearbySubmit}>
                 Search nearby
               </Button>
             </VStack>
@@ -693,7 +693,7 @@ export function DashboardPage() {
         </Card>
       </SimpleGrid>
 
-      <Card borderRadius="2xl" borderWidth="1px" borderColor="blackAlpha.100" boxShadow="0 18px 44px rgba(15,23,42,0.05)">
+      <Card borderRadius="2xl" borderWidth="1px" borderColor="surface.border" boxShadow="0 18px 44px rgba(15,23,42,0.05)">
         <CardBody>
           <VStack align="stretch" spacing={4}>
             <HStack justify="space-between" align="start" flexWrap="wrap">
@@ -701,13 +701,13 @@ export function DashboardPage() {
                 <Heading size="md" mb={1}>
                   Filter and sort results
                 </Heading>
-                <Text color="gray.600">Tune the current result set without leaving the search flow.</Text>
+                <Text color="gray.700">Tune the current result set without leaving the search flow.</Text>
               </Box>
               <HStack>
                 <Button size="sm" variant="outline" onClick={resetFilters} isDisabled={!activeFilterChips.length}>
                   Reset filters
                 </Button>
-                <Button size="sm" colorScheme="blue" onClick={applyFilters} isDisabled={!hasSearch}>
+                <Button size="sm" onClick={applyFilters} isDisabled={!hasSearch}>
                   Apply filters
                 </Button>
               </HStack>
@@ -776,7 +776,7 @@ export function DashboardPage() {
       ) : null}
 
       {hasSearch ? (
-        <Card borderRadius="2xl" borderWidth="1px" borderColor="blackAlpha.100">
+        <Card borderRadius="2xl" borderWidth="1px" borderColor="surface.border">
           <CardBody>
             <VStack align="stretch" spacing={6}>
               <HStack justify="space-between" align="start" flexWrap="wrap">
@@ -784,9 +784,9 @@ export function DashboardPage() {
                   <Heading size="md" mb={1}>
                     Search results
                   </Heading>
-                  <Text color="gray.600">Update the city, radius, filters, or sort order from this same view.</Text>
+                  <Text color="gray.700">Update the city, radius, filters, or sort order from this same view.</Text>
                 </Box>
-                <Button colorScheme="purple" onClick={openCompare}>
+                <Button onClick={openCompare}>
                   Compare selected ({selectedIds.length})
                 </Button>
               </HStack>
@@ -824,7 +824,7 @@ export function DashboardPage() {
               {loading ? (
                 <SimpleGrid columns={{ base: 1, xl: 2 }} spacing={5}>
                   {Array.from({ length: 4 }).map((_, index) => (
-                    <Box key={index} borderWidth="1px" borderRadius="2xl" p={5} bg="white">
+                    <Box key={index} borderWidth="1px" borderColor="surface.border" borderRadius="2xl" p={5} bg="surface.elevated">
                       <Skeleton height="24px" mb={3} />
                       <SkeletonText noOfLines={4} spacing="3" />
                     </Box>
@@ -856,7 +856,7 @@ export function DashboardPage() {
                     <Button variant="outline" onClick={() => updatePage(Math.max(1, (results.pagination.page ?? 1) - 1))} isDisabled={results.pagination.page <= 1}>
                       Previous
                     </Button>
-                    <Text color="gray.600">
+                    <Text color="gray.700">
                       Page {results.pagination.page} of {Math.max(results.pagination.total_pages, 1)}
                     </Text>
                     <Button
@@ -869,11 +869,11 @@ export function DashboardPage() {
                   </HStack>
                 </>
               ) : (
-                <Box borderWidth="1px" borderStyle="dashed" rounded="2xl" p={8} textAlign="center" bg="white">
+                <Box borderWidth="1px" borderColor="surface.border" borderStyle="dashed" rounded="2xl" p={8} textAlign="center" bg="surface.elevated">
                   <Heading size="md" mb={2}>
                     {hasActiveSearchFilters ? "No listings match your current filters" : activeMode === "nearby" ? "No nearby listings found" : "No listings matched your search"}
                   </Heading>
-                  <Text color="gray.600" mb={5}>
+                  <Text color="gray.700" mb={5}>
                     {hasActiveSearchFilters
                       ? "Try removing one filter or widening your distance."
                       : activeMode === "nearby"
@@ -884,7 +884,7 @@ export function DashboardPage() {
                     <Button variant="outline" onClick={resetFilters}>
                       Clear filters
                     </Button>
-                    <Button colorScheme="blue" onClick={broadenSearch}>
+                    <Button onClick={broadenSearch}>
                       Broaden search
                     </Button>
                   </HStack>
@@ -895,23 +895,23 @@ export function DashboardPage() {
         </Card>
       ) : (
         <Grid templateColumns={{ base: "1fr", md: "1.3fr 0.7fr" }} gap={6}>
-          <Card borderRadius="2xl" borderWidth="1px" borderColor="blackAlpha.100">
+          <Card borderRadius="2xl" borderWidth="1px" borderColor="surface.border">
             <CardBody>
               <Heading size="md" mb={2}>
                 No search submitted yet
               </Heading>
-              <Text color="gray.600">
+              <Text color="gray.700">
                 Use the city or nearby search panels above to start the discovery flow, then refine results in place.
               </Text>
             </CardBody>
           </Card>
-          <Card borderRadius="2xl" borderWidth="1px" borderColor="blackAlpha.100" bg="whiteAlpha.900">
+          <Card borderRadius="2xl" borderWidth="1px" borderColor="surface.border" bg="surface.elevated">
             <CardBody>
               <VStack align="stretch" spacing={3}>
                 <Heading size="sm">Quick actions</Heading>
-                <Text color="gray.600">Recent cities and the nearby location selector are tuned for the main search journey.</Text>
-                <Button variant="outline" colorScheme="blue" onClick={() => setCityInput("Hyderabad")}>Prefill Hyderabad</Button>
-                <Button variant="outline" colorScheme="teal" onClick={() => setLocationContext(defaultLocation)}>
+                <Text color="gray.700">Recent cities and the nearby location selector are tuned for the main search journey.</Text>
+                <Button variant="outline" onClick={() => setCityInput("Hyderabad")}>Prefill Hyderabad</Button>
+                <Button variant="outline" onClick={() => setLocationContext(defaultLocation)}>
                   Restore nearby location
                 </Button>
               </VStack>

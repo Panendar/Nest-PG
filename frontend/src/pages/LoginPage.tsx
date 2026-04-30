@@ -50,7 +50,7 @@ export function LoginPage() {
       title="Welcome Back"
       subtitle="Sign in to continue searching, comparing, and contacting owners."
       footer={
-        <Text color="gray.600" fontSize="sm">
+        <Text color="gray.700" fontSize="sm">
           New here?{" "}
           <Link as={RouterLink} to="/register" color="brand.700" fontWeight="semibold">
             Create an account
@@ -67,7 +67,7 @@ export function LoginPage() {
       <form onSubmit={onSubmit}>
         <Stack spacing={4}>
           <Box>
-            <Text fontSize="sm" color="gray.600" mb={1}>
+            <Text fontSize="sm" color="gray.700" mb={1} fontWeight="semibold">
               Email
             </Text>
             <Input
@@ -79,7 +79,7 @@ export function LoginPage() {
             />
           </Box>
           <Box>
-            <Text fontSize="sm" color="gray.600" mb={1}>
+            <Text fontSize="sm" color="gray.700" mb={1} fontWeight="semibold">
               Password
             </Text>
             <Input

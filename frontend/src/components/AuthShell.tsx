@@ -15,29 +15,31 @@ export function AuthShell({ title, subtitle, children, footer }: AuthShellProps)
       align="center"
       justify="center"
       px={{ base: 4, md: 8 }}
-      bgGradient="linear(to-br, #f7faf8 0%, #e9f2ee 52%, #f9f4ec 100%)"
+      bgGradient="linear(to-br, #eff4ff 0%, #f7faff 48%, #fff6e8 100%)"
       position="relative"
       overflow="hidden"
     >
       <Box
         position="absolute"
-        top="-140px"
-        right="-110px"
-        w="320px"
-        h="320px"
-        bg="brand.100"
+        top="-160px"
+        right="-90px"
+        w="360px"
+        h="360px"
+        bg="brand.200"
         rounded="full"
-        filter="blur(12px)"
+        opacity={0.9}
+        filter="blur(18px)"
       />
       <Box
         position="absolute"
         bottom="-160px"
-        left="-120px"
-        w="360px"
-        h="360px"
+        left="-100px"
+        w="420px"
+        h="420px"
         bg="accent.100"
         rounded="full"
-        filter="blur(22px)"
+        opacity={0.75}
+        filter="blur(28px)"
       />
       <Box
         w="full"
@@ -47,13 +49,13 @@ export function AuthShell({ title, subtitle, children, footer }: AuthShellProps)
         borderWidth="1px"
         borderColor="surface.border"
         bg="surface.panel"
-        boxShadow="0 28px 70px rgba(15, 23, 42, 0.12)"
-        backdropFilter="blur(8px)"
+        boxShadow="0 32px 80px rgba(15, 23, 42, 0.14)"
+        backdropFilter="blur(14px)"
       >
-        <Heading size="lg" mb={2} color="gray.800">
+        <Heading size="lg" mb={2} color="gray.900" letterSpacing="-0.03em">
           {title}
         </Heading>
-        <Text color="gray.600" mb={7}>
+        <Text color="gray.700" mb={7} fontSize="md">
           {subtitle}
         </Text>
         {children}

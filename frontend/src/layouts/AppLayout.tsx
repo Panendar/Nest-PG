@@ -20,17 +20,25 @@ export function AppLayout() {
       <Box
         as="aside"
         w={{ base: "96px", md: "300px" }}
-        bg="surface.panel"
-        backdropFilter="blur(10px)"
+        bg="surface.sidebar"
         borderRightWidth="1px"
-        borderColor="surface.border"
+        borderColor="whiteAlpha.200"
         p={5}
+        color="white"
       >
-        <Box rounded="2xl" bg="brand.50" borderWidth="1px" borderColor="brand.200" p={4} mb={8}>
-          <Heading size="sm" mb={2} letterSpacing="0.08em" textTransform="uppercase" color="brand.800">
+        <Box
+          rounded="2xl"
+          bg="whiteAlpha.100"
+          borderWidth="1px"
+          borderColor="whiteAlpha.200"
+          p={4}
+          mb={8}
+          boxShadow="inset 0 1px 0 rgba(255,255,255,0.08)"
+        >
+          <Heading size="sm" mb={2} letterSpacing="0.08em" textTransform="uppercase" color="white">
             My_PG
           </Heading>
-          <Text fontSize="sm" color="brand.700">
+          <Text fontSize="sm" color="blue.100">
             Discovery Workspace
           </Text>
         </Box>
@@ -43,11 +51,11 @@ export function AppLayout() {
               p={3}
               rounded="xl"
               borderWidth="1px"
-              borderColor={location.pathname.startsWith(item.matchPrefix) ? "brand.400" : "transparent"}
-              bg={location.pathname.startsWith(item.matchPrefix) ? "brand.50" : "transparent"}
-              color={location.pathname.startsWith(item.matchPrefix) ? "brand.800" : "gray.700"}
+              borderColor={location.pathname.startsWith(item.matchPrefix) ? "blue.400" : "transparent"}
+              bg={location.pathname.startsWith(item.matchPrefix) ? "whiteAlpha.160" : "transparent"}
+              color={location.pathname.startsWith(item.matchPrefix) ? "white" : "blue.100"}
               fontWeight={location.pathname.startsWith(item.matchPrefix) ? "semibold" : "medium"}
-              _hover={{ bg: "brand.100", textDecoration: "none" }}
+              _hover={{ bg: "whiteAlpha.120", color: "white", textDecoration: "none" }}
             >
               {item.label}
             </Link>
@@ -57,10 +65,10 @@ export function AppLayout() {
       <Box as="main" flex="1" p={{ base: 4, md: 8 }}>
         <HStack justify="space-between" align="center" mb={6}>
           <Box>
-            <Text fontSize="sm" color="gray.500">
+            <Text fontSize="sm" color="gray.600">
               Signed in as
             </Text>
-            <Text fontWeight="semibold" color="gray.700">
+            <Text fontWeight="semibold" color="gray.900">
               {user?.email ?? "user"}
             </Text>
           </Box>

@@ -59,7 +59,7 @@ export function RegisterPage() {
       title="Create Account"
       subtitle="Get access to full listing details, compare options, and contact owners directly."
       footer={
-        <Text color="gray.600" fontSize="sm">
+        <Text color="gray.700" fontSize="sm">
           Already have an account?{" "}
           <Link as={RouterLink} to="/login" color="brand.700" fontWeight="semibold">
             Sign in
@@ -76,7 +76,7 @@ export function RegisterPage() {
       <form onSubmit={onSubmit}>
         <Stack spacing={4}>
           <Box>
-            <Text fontSize="sm" color="gray.600" mb={1}>
+            <Text fontSize="sm" color="gray.700" mb={1} fontWeight="semibold">
               Email
             </Text>
             <Input
@@ -88,7 +88,7 @@ export function RegisterPage() {
             />
           </Box>
           <Box>
-            <Text fontSize="sm" color="gray.600" mb={1}>
+            <Text fontSize="sm" color="gray.700" mb={1} fontWeight="semibold">
               Password
             </Text>
             <Input
@@ -100,7 +100,7 @@ export function RegisterPage() {
             />
           </Box>
           <Box>
-            <Text fontSize="sm" color="gray.600" mb={1}>
+            <Text fontSize="sm" color="gray.700" mb={1} fontWeight="semibold">
               Confirm password
             </Text>
             <Input

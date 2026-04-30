@@ -24,6 +24,22 @@ function availabilityTone(status: string): string {
   return "gray";
 }
 
+function badgePalette(colorScheme: string): { bg: string; color: string; borderColor: string } {
+  if (colorScheme === "green") {
+    return { bg: "green.50", color: "green.800", borderColor: "green.200" };
+  }
+  if (colorScheme === "orange") {
+    return { bg: "orange.50", color: "orange.800", borderColor: "orange.200" };
+  }
+  if (colorScheme === "purple") {
+    return { bg: "purple.50", color: "purple.800", borderColor: "purple.200" };
+  }
+  if (colorScheme === "gray") {
+    return { bg: "gray.100", color: "gray.700", borderColor: "gray.200" };
+  }
+  return { bg: "brand.50", color: "brand.800", borderColor: "brand.200" };
+}
+
 type ListingSummaryCardProps = {
   listing: ListingSummary;
   detailHref: string;
@@ -51,9 +67,9 @@ export function ListingSummaryCard({
   return (
     <Box
       borderWidth="1px"
-      borderColor="blackAlpha.100"
+      borderColor="surface.border"
       rounded="2xl"
-      bg="white"
+      bg="surface.elevated"
       p={5}
       boxShadow="0 16px 40px rgba(15,23,42,0.06)"
     >
@@ -63,40 +79,59 @@ export function ListingSummaryCard({
             <Heading size="md" lineHeight="shorter">
               {listing.title}
             </Heading>
-            <Text color="gray.600" mt={1}>
+            <Text color="gray.700" mt={1}>
               {listing.city}
             </Text>
           </Box>
-          <Checkbox isChecked={compareChecked} onChange={() => onToggleCompare(listing.id)} colorScheme="blue">
+          <Checkbox isChecked={compareChecked} onChange={() => onToggleCompare(listing.id)} colorScheme="brand">
             Compare
           </Checkbox>
         </HStack>
 
         <HStack spacing={2} flexWrap="wrap">
-          <Badge colorScheme={availabilityTone(listing.availability_status)} textTransform="capitalize">
+          <Badge
+            bg={badgePalette(availabilityTone(listing.availability_status)).bg}
+            color={badgePalette(availabilityTone(listing.availability_status)).color}
+            borderWidth="1px"
+            borderColor={badgePalette(availabilityTone(listing.availability_status)).borderColor}
+            textTransform="capitalize"
+          >
             {listing.availability_status}
           </Badge>
-          <Badge colorScheme={listing.accepting_inquiries ? "blue" : "gray"}>
+          <Badge
+            bg={badgePalette(listing.accepting_inquiries ? "brand" : "gray").bg}
+            color={badgePalette(listing.accepting_inquiries ? "brand" : "gray").color}
+            borderWidth="1px"
+            borderColor={badgePalette(listing.accepting_inquiries ? "brand" : "gray").borderColor}
+          >
             {listing.accepting_inquiries ? "Accepting inquiries" : "Not accepting inquiries"}
           </Badge>
-          {isSaved ? <Badge colorScheme="green">Saved</Badge> : null}
-          {distanceLabel ? <Badge colorScheme="purple">{distanceLabel}</Badge> : null}
+          {isSaved ? (
+            <Badge bg="green.50" color="green.800" borderWidth="1px" borderColor="green.200">
+              Saved
+            </Badge>
+          ) : null}
+          {distanceLabel ? (
+            <Badge bg="purple.50" color="purple.800" borderWidth="1px" borderColor="purple.200">
+              {distanceLabel}
+            </Badge>
+          ) : null}
         </HStack>
 
         <Stack spacing={1}>
           <Text fontSize="lg" fontWeight="semibold" color="gray.900">
             {formatPrice(listing.price)} / month
           </Text>
-          <Text color="gray.600">Quickly review the listing details before comparing or contacting.</Text>
+          <Text color="gray.700">Quickly review the listing details before comparing or contacting.</Text>
         </Stack>
 
         <Stack spacing={2}>
           <HStack justify="space-between" flexWrap="wrap">
-            <Button as={RouterLink} to={detailHref} variant="outline" colorScheme="blue">
+            <Button as={RouterLink} to={detailHref} variant="outline">
               View details
             </Button>
             {canContact ? (
-              <Button as={RouterLink} to={contactHref} colorScheme="blue">
+              <Button as={RouterLink} to={contactHref}>
                 Contact owner
               </Button>
             ) : (
@@ -109,7 +144,7 @@ export function ListingSummaryCard({
             <Button variant="ghost" colorScheme={isSaved ? "green" : "gray"} isLoading={saveBusy} onClick={() => onToggleSave(listing)}>
               {isSaved ? "Remove saved" : "Save listing"}
             </Button>
-            <Text fontSize="sm" color="gray.500">
+            <Text fontSize="sm" color="gray.600">
               ID {listing.id.slice(0, 8)}
             </Text>
           </HStack>

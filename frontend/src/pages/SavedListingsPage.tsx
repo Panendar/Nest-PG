@@ -86,7 +86,7 @@ export function SavedListingsPage() {
           <Heading size="xl" letterSpacing="-0.03em">
             Saved listings
           </Heading>
-          <Text color="gray.600" mt={2}>
+          <Text color="gray.700" mt={2}>
             Revisit PG options you marked for later comparison.
           </Text>
         </Box>
@@ -119,8 +119,8 @@ export function SavedListingsPage() {
           <CardBody>
             <VStack align="start" spacing={3}>
               <Heading size="md">You have no saved listings yet.</Heading>
-              <Text color="gray.600">Save PGs from search or details to revisit later.</Text>
-              <Button as={RouterLink} to={continueBrowsingHref} colorScheme="blue">
+              <Text color="gray.700">Save PGs from search or details to revisit later.</Text>
+              <Button as={RouterLink} to={continueBrowsingHref}>
                 Continue browsing
               </Button>
             </VStack>
@@ -135,7 +135,7 @@ export function SavedListingsPage() {
                   <HStack justify="space-between" align="start" flexWrap="wrap">
                     <Box>
                       <Heading size="md">{item.listing_summary.title}</Heading>
-                      <Text color="gray.600" mt={1}>
+                      <Text color="gray.700" mt={1}>
                         {formatPrice(item.listing_summary.price)} / month
                       </Text>
                     </Box>
@@ -143,10 +143,10 @@ export function SavedListingsPage() {
                       <Badge colorScheme={item.listing_summary.accepting_inquiries ? "green" : "gray"}>
                         {item.listing_summary.accepting_inquiries ? "Active" : "Unavailable"}
                       </Badge>
-                      <Badge colorScheme="blue">Saved</Badge>
+                      <Badge colorScheme="brand">Saved</Badge>
                     </HStack>
                   </HStack>
-                  <Text color="gray.600">{item.listing_summary.city}</Text>
+                  <Text color="gray.700">{item.listing_summary.city}</Text>
                   {!item.listing_summary.accepting_inquiries ? (
                     <Alert status="warning" rounded="xl">
                       <AlertIcon />
@@ -154,7 +154,7 @@ export function SavedListingsPage() {
                     </Alert>
                   ) : null}
                   <HStack>
-                    <Button colorScheme="blue" onClick={() => openListing(item)}>
+                    <Button onClick={() => openListing(item)}>
                       Open
                     </Button>
                     <Button

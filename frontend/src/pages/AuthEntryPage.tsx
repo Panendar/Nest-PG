@@ -13,7 +13,7 @@ export function AuthEntryPage() {
       title="Find Your Next PG"
       subtitle="Sign in or create an account to unlock full search, compare, and direct owner contact flows."
       footer={
-        <Text color="gray.600" fontSize="sm">
+        <Text color="gray.700" fontSize="sm">
           Secure access is required before entering the dashboard.
         </Text>
       }

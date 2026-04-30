@@ -117,7 +117,7 @@ export function CompareListingsPage() {
 
   const fieldOrder = [
     { label: "Price", render: (listing: CompareListing) => formatPrice(listing.price) },
-    { label: "Distance", render: (listing: CompareListing) => formatDistance(listing.distance_km) ?? "—" },
+    { label: "Distance", render: (listing: CompareListing) => formatDistance(listing.distance_km) ?? "N/A" },
     { label: "Availability", render: (listing: CompareListing) => listing.availability_status },
     { label: "Beds", render: (listing: CompareListing) => String(listing.beds_available) },
     { label: "Wi-Fi", render: (listing: CompareListing) => (listing.wifi_included ? "Yes" : "No") },
@@ -125,7 +125,7 @@ export function CompareListingsPage() {
     { label: "Furnished", render: (listing: CompareListing) => (listing.furnished ? "Yes" : "No") },
     {
       label: "Amenities",
-      render: (listing: CompareListing) => (listing.amenities.length > 0 ? listing.amenities.join(", ") : "—"),
+      render: (listing: CompareListing) => (listing.amenities.length > 0 ? listing.amenities.join(", ") : "N/A"),
     },
   ];
 
@@ -136,7 +136,7 @@ export function CompareListingsPage() {
           <Heading size="xl" letterSpacing="-0.03em">
             Compare listings
           </Heading>
-          <Text color="gray.600" mt={2}>
+          <Text color="gray.700" mt={2}>
             Review a consistent field order across listings, then remove or open one without losing your search context.
           </Text>
         </Box>
@@ -154,7 +154,7 @@ export function CompareListingsPage() {
                 Select one more listing to compare. You can compare up to 4 listings at a time.
               </Alert>
               <HStack>
-                <Button as={RouterLink} to={returnTo} colorScheme="blue" alignSelf="start">
+                <Button as={RouterLink} to={returnTo} alignSelf="start">
                   Continue browsing
                 </Button>
                 <Button
@@ -199,7 +199,7 @@ export function CompareListingsPage() {
                 <VStack align="stretch" spacing={4}>
                   <Box>
                     <HStack spacing={2} mb={2} flexWrap="wrap">
-                      <Badge colorScheme="blue">{listing.city}</Badge>
+                      <Badge colorScheme="brand">{listing.city}</Badge>
                       <Badge colorScheme={listing.accepting_inquiries ? "green" : "gray"}>
                         {listing.accepting_inquiries ? "Accepting inquiries" : "Not accepting inquiries"}
                       </Badge>
@@ -212,7 +212,7 @@ export function CompareListingsPage() {
                   <Stack spacing={2}>
                     {fieldOrder.map((field) => (
                       <HStack key={field.label} justify="space-between" align="start">
-                        <Text color="gray.500">{field.label}</Text>
+                        <Text color="gray.600">{field.label}</Text>
                         <Text fontWeight="medium" textAlign="right">
                           {field.render(listing)}
                         </Text>
@@ -223,7 +223,7 @@ export function CompareListingsPage() {
                   <Divider />
 
                   <VStack align="stretch" spacing={2}>
-                    <Button as={RouterLink} to={`${basePath}/listings/${listing.id}?returnTo=${encodeURIComponent(returnTo)}`} colorScheme="purple">
+                    <Button as={RouterLink} to={`${basePath}/listings/${listing.id}?returnTo=${encodeURIComponent(returnTo)}`}>
                       View details
                     </Button>
                     <Button variant="outline" onClick={() => removeListing(listing.id)}>

@@ -327,7 +327,7 @@ export function ListingDetailsPage() {
           <Heading size="xl" letterSpacing="-0.03em">
             Listing details
           </Heading>
-          <Text color="gray.600" mt={2}>
+          <Text color="gray.700" mt={2}>
             Review the listing before returning to results, comparing, or taking the next step.
           </Text>
         </Box>
@@ -335,7 +335,7 @@ export function ListingDetailsPage() {
           <Button as={RouterLink} to={returnTo} variant="outline">
             Back to results
           </Button>
-          <Button as={RouterLink} to={compareHref} colorScheme="purple" isDisabled={!listing || isUnavailableListing}>
+          <Button as={RouterLink} to={compareHref} isDisabled={!listing || isUnavailableListing}>
             Compare this listing
           </Button>
         </HStack>
@@ -363,9 +363,9 @@ export function ListingDetailsPage() {
           <CardBody>
             <VStack align="stretch" spacing={4}>
               <Heading size="md">This listing is no longer available.</Heading>
-              <Text color="gray.600">Please return to search results and choose another listing.</Text>
+              <Text color="gray.700">Please return to search results and choose another listing.</Text>
               <HStack>
-                <Button as={RouterLink} to={returnTo} colorScheme="blue">
+                <Button as={RouterLink} to={returnTo}>
                   Return to results
                 </Button>
                 <Button as={RouterLink} to={returnTo} variant="outline">
@@ -382,7 +382,7 @@ export function ListingDetailsPage() {
               <VStack align="stretch" spacing={5}>
                 <Box>
                   <HStack spacing={2} mb={3} flexWrap="wrap">
-                    <Badge colorScheme="blue">{listing.city}</Badge>
+                    <Badge colorScheme="brand">{listing.city}</Badge>
                     <Badge colorScheme={listing.accepting_inquiries ? "green" : "gray"}>
                       {listing.accepting_inquiries ? "Accepting inquiries" : "Not accepting inquiries"}
                     </Badge>
@@ -393,7 +393,7 @@ export function ListingDetailsPage() {
                     {formatDistance(listing.distance_km) ? <Badge colorScheme="purple">{formatDistance(listing.distance_km)}</Badge> : null}
                   </HStack>
                   <Heading size="lg">{listing.title}</Heading>
-                  <Text color="gray.600" mt={3}>
+                  <Text color="gray.700" mt={3}>
                     {listing.description}
                   </Text>
                 </Box>
@@ -500,8 +500,8 @@ export function ListingDetailsPage() {
                 </Heading>
                 <Stack spacing={2}>
                   <Text fontWeight="medium">{ownerDisplayLabel}</Text>
-                  <Text color="gray.600">Role: {listing.owner.role}</Text>
-                  <Text color="gray.600">Owner ID: {listing.owner.id}</Text>
+                  <Text color="gray.700">Role: {listing.owner.role}</Text>
+                  <Text color="gray.700">Owner ID: {listing.owner.id}</Text>
                 </Stack>
               </CardBody>
             </Card>
@@ -512,11 +512,11 @@ export function ListingDetailsPage() {
                   Next actions
                 </Heading>
                 <VStack align="stretch" spacing={3}>
-                  <Button as={RouterLink} to={compareHref} colorScheme="purple">
+                  <Button as={RouterLink} to={compareHref}>
                     Compare with search selection
                   </Button>
                   {canContact ? (
-                    <Button colorScheme="blue" onClick={openContactForm}>
+                    <Button onClick={openContactForm}>
                       Contact owner
                     </Button>
                   ) : null}
@@ -553,7 +553,7 @@ export function ListingDetailsPage() {
             <VStack align="stretch" spacing={4}>
               <Box>
                 <Text fontWeight="medium">Listing: {listing?.title}</Text>
-                <Text color="gray.600">Owner: {ownerDisplayLabel}</Text>
+                <Text color="gray.700">Owner: {ownerDisplayLabel}</Text>
               </Box>
 
               {contactValidation ? (
