@@ -106,3 +106,58 @@ export async function updateOwnerListingDetails(
   const response = await apiClient.put<OwnerListingUpdateResponse>(`/owner/listings/${listingId}`, payload);
   return response.data;
 }
+
+export type OwnerListingMediaItem = {
+  id: string;
+  listing_id: string;
+  file_url: string;
+  caption: string | null;
+  sort_order: number;
+  is_primary: boolean;
+  created_at: string;
+  updated_at: string | null;
+};
+
+export type OwnerListingMediaListResponse = {
+  items: OwnerListingMediaItem[];
+};
+
+export async function listOwnerListingMedia(listingId: string): Promise<OwnerListingMediaListResponse> {
+  const response = await apiClient.get<OwnerListingMediaListResponse>(`/owner/listings/${listingId}/media`);
+  return response.data;
+}
+
+export async function addOwnerListingMedia(
+  listingId: string,
+  payload: { file: File; caption?: string; sort_order?: number; is_primary?: boolean }
+): Promise<OwnerListingMediaItem> {
+  const formData = new FormData();
+  formData.append("file", payload.file);
+  if (payload.caption) formData.append("caption", payload.caption);
+  if (typeof payload.sort_order === "number") formData.append("sort_order", String(payload.sort_order));
+  if (typeof payload.is_primary === "boolean") formData.append("is_primary", String(payload.is_primary));
+  const response = await apiClient.post<OwnerListingMediaItem>(`/owner/listings/${listingId}/media`, formData, {
+    headers: { "Content-Type": "multipart/form-data" },
+  });
+  return response.data;
+}
+
+export async function updateOwnerListingMedia(
+  listingId: string,
+  mediaId: string,
+  payload: { file?: File; caption?: string; sort_order?: number; is_primary?: boolean }
+): Promise<OwnerListingMediaItem> {
+  const formData = new FormData();
+  if (payload.file) formData.append("file", payload.file);
+  if (typeof payload.caption !== "undefined") formData.append("caption", payload.caption);
+  if (typeof payload.sort_order === "number") formData.append("sort_order", String(payload.sort_order));
+  if (typeof payload.is_primary === "boolean") formData.append("is_primary", String(payload.is_primary));
+  const response = await apiClient.put<OwnerListingMediaItem>(`/owner/listings/${listingId}/media/${mediaId}`, formData, {
+    headers: { "Content-Type": "multipart/form-data" },
+  });
+  return response.data;
+}
+
+export async function deleteOwnerListingMedia(listingId: string, mediaId: string): Promise<void> {
+  await apiClient.delete(`/owner/listings/${listingId}/media/${mediaId}`);
+}

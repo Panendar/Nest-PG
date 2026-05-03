@@ -15,6 +15,7 @@ import { OwnerRoutePlaceholderPage } from "./pages/OwnerRoutePlaceholderPage";
 import { OwnerCreateListingPage } from "./pages/OwnerCreateListingPage";
 import { OwnerAvailabilityPage } from "./pages/OwnerAvailabilityPage";
 import { OwnerEditListingPage } from "./pages/OwnerEditListingPage";
+import { OwnerListingMediaPage } from "./pages/OwnerListingMediaPage";
 import { OwnerListingManagementPage } from "./pages/OwnerListingManagementPage";
 import { OwnerListingsPage } from "./pages/OwnerListingsPage";
 import { RecentSearchesPage } from "./pages/RecentSearchesPage";
@@ -85,6 +86,10 @@ function createOwnerRoutes() {
       {
         path: "listings/:listingId/availability",
         element: <OwnerAvailabilityPage />,
+      },
+      {
+        path: "listings/:listingId/media",
+        element: <OwnerListingMediaPage />,
       },
       {
         path: "media",

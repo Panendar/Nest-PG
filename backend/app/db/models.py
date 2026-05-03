@@ -55,6 +55,24 @@ class PgListing(Base):
     updated_at: Mapped[DateTime] = mapped_column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now(), nullable=False)
 
     owner = relationship("User")
+    media_items = relationship("ListingMedia", back_populates="listing")
+
+
+class ListingMedia(Base):
+    __tablename__ = "listing_media"
+
+    id: Mapped[str] = mapped_column(String, primary_key=True)
+    listing_id: Mapped[str] = mapped_column(ForeignKey("pg_listings.id"), nullable=False, index=True)
+    storage_key: Mapped[str] = mapped_column(String(500), nullable=False)
+    file_url: Mapped[str] = mapped_column(String(500), nullable=False)
+    caption: Mapped[str | None] = mapped_column(String(200), nullable=True)
+    sort_order: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
+    is_primary: Mapped[bool] = mapped_column(Boolean, nullable=False, default=False)
+    deleted_at: Mapped[DateTime | None] = mapped_column(DateTime(timezone=True), nullable=True)
+    created_at: Mapped[DateTime] = mapped_column(DateTime(timezone=True), server_default=func.now(), nullable=False)
+    updated_at: Mapped[DateTime] = mapped_column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now(), nullable=False)
+
+    listing = relationship("PgListing", back_populates="media_items")
 
 
 class Contact(Base):

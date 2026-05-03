@@ -1,6 +1,7 @@
 from sqlalchemy import create_engine, select
 from sqlalchemy.orm import Session, sessionmaker
 from fastapi.testclient import TestClient
+import io
 
 from app.core.config import settings
 from app.db.base import Base
@@ -597,4 +598,78 @@ def test_owner_update_listing_details_forbidden_for_user_role(tmp_path, monkeypa
         headers=user_headers,
     )
 
+    assert response.status_code == 403
+
+
+def test_owner_listing_media_crud_flow(tmp_path, monkeypatch):
+    client = _build_test_client(tmp_path, monkeypatch)
+    headers = _owner_headers(client)
+
+    create_response = client.post(
+        "/api/v1/owner/listings",
+        json={
+            "pg_name": "Media Ready PG",
+            "city": "Hyderabad",
+            "area": "Kondapur",
+            "monthly_rent": 8700,
+            "occupancy_type": "double_sharing",
+            "available_units": 2,
+            "description": "Listing for media flow tests.",
+            "amenities": ["wifi"],
+            "listing_status": "active",
+            "availability_status": "available",
+        },
+        headers=headers,
+    )
+    listing_id = create_response.json()["id"]
+
+    add_response = client.post(
+        f"/api/v1/owner/listings/{listing_id}/media",
+        headers=headers,
+        files={"file": ("room.jpg", io.BytesIO(b"fake-jpg-bytes"), "image/jpeg")},
+        data={"caption": "Room view", "sort_order": "1", "is_primary": "true"},
+    )
+    assert add_response.status_code == 201, add_response.text
+    media_id = add_response.json()["id"]
+
+    list_response = client.get(f"/api/v1/owner/listings/{listing_id}/media", headers=headers)
+    assert list_response.status_code == 200
+    assert len(list_response.json()["items"]) == 1
+
+    update_response = client.put(
+        f"/api/v1/owner/listings/{listing_id}/media/{media_id}",
+        headers=headers,
+        data={"caption": "Updated room view", "sort_order": "2"},
+    )
+    assert update_response.status_code == 200
+    assert update_response.json()["caption"] == "Updated room view"
+
+    delete_response = client.delete(f"/api/v1/owner/listings/{listing_id}/media/{media_id}", headers=headers)
+    assert delete_response.status_code == 204
+
+
+def test_owner_listing_media_forbidden_for_user_role(tmp_path, monkeypatch):
+    client = _build_test_client(tmp_path, monkeypatch)
+    owner_headers = _owner_headers(client)
+    user_headers = _token_headers(client)
+
+    create_response = client.post(
+        "/api/v1/owner/listings",
+        json={
+            "pg_name": "Media Guard PG",
+            "city": "Hyderabad",
+            "area": "Madhapur",
+            "monthly_rent": 8800,
+            "occupancy_type": "double_sharing",
+            "available_units": 2,
+            "description": "Listing for media authorization tests.",
+            "amenities": ["wifi"],
+            "listing_status": "active",
+            "availability_status": "available",
+        },
+        headers=owner_headers,
+    )
+    listing_id = create_response.json()["id"]
+
+    response = client.get(f"/api/v1/owner/listings/{listing_id}/media", headers=user_headers)
     assert response.status_code == 403

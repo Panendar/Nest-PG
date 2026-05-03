@@ -10,6 +10,7 @@ from app.api.routes.searches import router as searches_router
 from app.api.routes.health import router as health_router
 from app.api.routes.protected import router as protected_router
 from app.api.routes.owner_listings import router as owner_listings_router
+from app.api.routes.owner_listing_media import router as owner_listing_media_router
 from app.core.config import settings
 from app.core.errors import register_error_handlers
 from app.core.security import JWTAuthMiddleware
@@ -63,3 +64,4 @@ app.include_router(recent_searches_router, prefix=settings.api_prefix)
 app.include_router(searches_router, prefix=settings.api_prefix)
 app.include_router(protected_router, prefix=settings.api_prefix)
 app.include_router(owner_listings_router, prefix=settings.api_prefix)
+app.include_router(owner_listing_media_router, prefix=settings.api_prefix)
