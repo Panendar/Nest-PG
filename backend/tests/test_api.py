@@ -63,6 +63,10 @@ def _login_headers(client: TestClient, email: str, password: str) -> dict[str, s
     return {"Authorization": f"Bearer {response.json()['access_token']}"}
 
 
+def _owner_headers(client: TestClient) -> dict[str, str]:
+    return _login_headers(client, "owner-1@example.com", "change-me")
+
+
 def test_login_returns_tokens(tmp_path, monkeypatch):
     client = _build_test_client(tmp_path, monkeypatch)
 
@@ -382,3 +386,58 @@ def test_recent_searches_collapse_duplicates_to_latest(tmp_path, monkeypatch):
     list_response = client.get("/api/v1/recent-searches?page=1&page_size=20", headers=headers)
     assert list_response.status_code == 200
     assert len(list_response.json()["items"]) == 1
+
+
+def test_owner_create_listing_success(tmp_path, monkeypatch):
+    client = _build_test_client(tmp_path, monkeypatch)
+    headers = _owner_headers(client)
+
+    response = client.post(
+        "/api/v1/owner/listings",
+        json={
+            "pg_name": "Sunrise PG",
+            "city": "Hyderabad",
+            "area": "Miyapur",
+            "monthly_rent": 7800,
+            "occupancy_type": "double_sharing",
+            "available_units": 2,
+            "description": "Clean rooms with meals and internet.",
+            "amenities": ["wifi", "meals"],
+            "listing_status": "active",
+            "availability_status": "available",
+            "availability_note": "Two beds open from Friday.",
+        },
+        headers=headers,
+    )
+
+    assert response.status_code == 201, response.text
+    payload = response.json()
+    assert payload["pg_name"] == "Sunrise PG"
+    assert payload["city"] == "Hyderabad"
+    assert payload["area"] == "Miyapur"
+    assert payload["listing_status"] == "active"
+    assert payload["availability_status"] == "available"
+
+
+def test_owner_create_listing_forbidden_for_user_role(tmp_path, monkeypatch):
+    client = _build_test_client(tmp_path, monkeypatch)
+    headers = _token_headers(client)
+
+    response = client.post(
+        "/api/v1/owner/listings",
+        json={
+            "pg_name": "Sunrise PG",
+            "city": "Hyderabad",
+            "area": "Miyapur",
+            "monthly_rent": 7800,
+            "occupancy_type": "double_sharing",
+            "available_units": 2,
+            "description": "Clean rooms with meals and internet.",
+            "amenities": ["wifi", "meals"],
+            "listing_status": "active",
+            "availability_status": "available",
+        },
+        headers=headers,
+    )
+
+    assert response.status_code == 403

@@ -9,6 +9,7 @@ from app.api.routes.saved_listings import router as saved_listings_router
 from app.api.routes.searches import router as searches_router
 from app.api.routes.health import router as health_router
 from app.api.routes.protected import router as protected_router
+from app.api.routes.owner_listings import router as owner_listings_router
 from app.core.config import settings
 from app.core.errors import register_error_handlers
 from app.core.security import JWTAuthMiddleware
@@ -23,13 +24,18 @@ app.middleware("http")(
 		protected_prefixes=(
 			f"{settings.api_prefix}/protected",
 			f"{settings.api_prefix}/admin",
+			f"{settings.api_prefix}/owner",
 			f"{settings.api_prefix}/auth/me",
 			f"{settings.api_prefix}/listings",
 			f"{settings.api_prefix}/contacts",
 			f"{settings.api_prefix}/saved-listings",
 			f"{settings.api_prefix}/recent-searches",
 			f"{settings.api_prefix}/searches",
-		)
+		),
+        role_prefixes={
+            f"{settings.api_prefix}/admin": ("admin",),
+            f"{settings.api_prefix}/owner": ("owner",),
+        },
 	)
 )
 
@@ -56,3 +62,4 @@ app.include_router(saved_listings_router, prefix=settings.api_prefix)
 app.include_router(recent_searches_router, prefix=settings.api_prefix)
 app.include_router(searches_router, prefix=settings.api_prefix)
 app.include_router(protected_router, prefix=settings.api_prefix)
+app.include_router(owner_listings_router, prefix=settings.api_prefix)
