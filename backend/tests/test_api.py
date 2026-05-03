@@ -508,3 +508,93 @@ def test_owner_update_availability_forbidden_for_user_role(tmp_path, monkeypatch
     )
 
     assert response.status_code == 403
+
+
+def test_owner_get_and_update_listing_details_success(tmp_path, monkeypatch):
+    client = _build_test_client(tmp_path, monkeypatch)
+    headers = _owner_headers(client)
+
+    create_response = client.post(
+        "/api/v1/owner/listings",
+        json={
+            "pg_name": "Lake View PG",
+            "city": "Hyderabad",
+            "area": "Madhapur",
+            "monthly_rent": 9500,
+            "occupancy_type": "triple_sharing",
+            "available_units": 3,
+            "description": "Initial description for edit flow.",
+            "amenities": ["wifi", "furnished"],
+            "listing_status": "active",
+            "availability_status": "available",
+        },
+        headers=headers,
+    )
+    listing_id = create_response.json()["id"]
+
+    get_response = client.get(f"/api/v1/owner/listings/{listing_id}", headers=headers)
+    assert get_response.status_code == 200
+    assert get_response.json()["pg_name"] == "Lake View PG"
+
+    update_response = client.put(
+        f"/api/v1/owner/listings/{listing_id}",
+        json={
+            "pg_name": "Lake View PG Premium",
+            "city": "Hyderabad",
+            "area": "Madhapur",
+            "monthly_rent": 9900,
+            "occupancy_type": "double_sharing",
+            "available_units": 2,
+            "description": "Updated details for owner edit flow.",
+            "amenities": ["wifi", "meals", "furnished"],
+            "listing_status": "active",
+        },
+        headers=headers,
+    )
+    assert update_response.status_code == 200, update_response.text
+    update_payload = update_response.json()
+    assert update_payload["pg_name"] == "Lake View PG Premium"
+    assert update_payload["monthly_rent"] == 9900
+    assert "meals" in update_payload["amenities"]
+
+
+def test_owner_update_listing_details_forbidden_for_user_role(tmp_path, monkeypatch):
+    client = _build_test_client(tmp_path, monkeypatch)
+    owner_headers = _owner_headers(client)
+    user_headers = _token_headers(client)
+
+    create_response = client.post(
+        "/api/v1/owner/listings",
+        json={
+            "pg_name": "Zen PG",
+            "city": "Hyderabad",
+            "area": "Gachibowli",
+            "monthly_rent": 8200,
+            "occupancy_type": "double_sharing",
+            "available_units": 1,
+            "description": "Owner listing for role check.",
+            "amenities": ["wifi"],
+            "listing_status": "active",
+            "availability_status": "available",
+        },
+        headers=owner_headers,
+    )
+    listing_id = create_response.json()["id"]
+
+    response = client.put(
+        f"/api/v1/owner/listings/{listing_id}",
+        json={
+            "pg_name": "Zen PG Updated",
+            "city": "Hyderabad",
+            "area": "Gachibowli",
+            "monthly_rent": 8300,
+            "occupancy_type": "double_sharing",
+            "available_units": 1,
+            "description": "Attempted user-role edit.",
+            "amenities": ["wifi"],
+            "listing_status": "active",
+        },
+        headers=user_headers,
+    )
+
+    assert response.status_code == 403
