@@ -64,3 +64,31 @@ class OwnerListingCreateResponse(BaseModel):
     listing_status: str
     availability_status: str
     created_at: datetime
+
+
+class OwnerListingAvailabilityUpdateRequest(BaseModel):
+    availability_status: str = Field(min_length=3, max_length=20)
+    availability_note: str | None = Field(default=None, max_length=200)
+
+    @field_validator("availability_status")
+    @classmethod
+    def _validate_availability_status(cls, value: str) -> str:
+        normalized = value.strip().lower()
+        if normalized not in ALLOWED_AVAILABILITY_STATUSES:
+            raise ValueError("Invalid availability status")
+        return normalized
+
+    @field_validator("availability_note")
+    @classmethod
+    def _normalize_availability_note(cls, value: str | None) -> str | None:
+        if value is None:
+            return None
+        cleaned = " ".join(value.strip().split())
+        return cleaned or None
+
+
+class OwnerListingAvailabilityUpdateResponse(BaseModel):
+    id: str
+    availability_status: str
+    availability_note: str | None
+    updated_at: datetime

@@ -29,3 +29,23 @@ export async function createOwnerListing(payload: OwnerListingCreatePayload): Pr
   const response = await apiClient.post<OwnerListingCreateResponse>("/owner/listings", payload);
   return response.data;
 }
+
+export type OwnerAvailabilityUpdatePayload = {
+  availability_status: string;
+  availability_note?: string;
+};
+
+export type OwnerAvailabilityUpdateResponse = {
+  id: string;
+  availability_status: string;
+  availability_note: string | null;
+  updated_at: string;
+};
+
+export async function updateOwnerListingAvailability(
+  listingId: string,
+  payload: OwnerAvailabilityUpdatePayload
+): Promise<OwnerAvailabilityUpdateResponse> {
+  const response = await apiClient.patch<OwnerAvailabilityUpdateResponse>(`/owner/listings/${listingId}/availability`, payload);
+  return response.data;
+}

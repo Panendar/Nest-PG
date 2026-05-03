@@ -11,6 +11,7 @@ from app.core.security import require_roles
 from app.db.models import PgListing
 from app.db.session import get_db_session
 from app.schemas.owner_listings import OwnerListingCreateRequest, OwnerListingCreateResponse
+from app.schemas.owner_listings import OwnerListingAvailabilityUpdateRequest, OwnerListingAvailabilityUpdateResponse
 
 
 router = APIRouter(prefix="/owner/listings", tags=["owner-listings"])
@@ -86,4 +87,43 @@ def create_owner_listing(
         listing_status=listing.listing_status,
         availability_status=listing.availability_status,
         created_at=listing.created_at,
+    )
+
+
+def _get_owned_listing(db: Session, owner_id: str, listing_id: str) -> PgListing:
+    listing = db.scalar(
+        select(PgListing).where(
+            PgListing.id == listing_id,
+            PgListing.owner_id == owner_id,
+            PgListing.deleted_at.is_(None),
+        )
+    )
+    if not listing:
+        raise _http_error(status.HTTP_404_NOT_FOUND, "NOT_FOUND", "This listing is no longer available to update.")
+    return listing
+
+
+@router.patch("/{listing_id}/availability", response_model=OwnerListingAvailabilityUpdateResponse)
+def update_owner_listing_availability(
+    listing_id: str,
+    payload: OwnerListingAvailabilityUpdateRequest,
+    current_user: dict = Depends(require_roles(["owner"])),
+    db: Session = Depends(get_db_session),
+) -> OwnerListingAvailabilityUpdateResponse:
+    owner_id = str(current_user.get("sub", "")).strip()
+    if not owner_id:
+        raise _http_error(status.HTTP_401_UNAUTHORIZED, "UNAUTHORIZED", "Authentication required")
+
+    listing = _get_owned_listing(db, owner_id, listing_id)
+    listing.availability_status = payload.availability_status
+    listing.availability_note = payload.availability_note
+    listing.accepting_inquiries = payload.availability_status != "full" and listing.listing_status == "active"
+    db.commit()
+    db.refresh(listing)
+
+    return OwnerListingAvailabilityUpdateResponse(
+        id=listing.id,
+        availability_status=listing.availability_status,
+        availability_note=listing.availability_note,
+        updated_at=listing.updated_at,
     )

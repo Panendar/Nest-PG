@@ -441,3 +441,70 @@ def test_owner_create_listing_forbidden_for_user_role(tmp_path, monkeypatch):
     )
 
     assert response.status_code == 403
+
+
+def test_owner_update_availability_success(tmp_path, monkeypatch):
+    client = _build_test_client(tmp_path, monkeypatch)
+    headers = _owner_headers(client)
+
+    create_response = client.post(
+        "/api/v1/owner/listings",
+        json={
+            "pg_name": "Maple PG",
+            "city": "Hyderabad",
+            "area": "Kondapur",
+            "monthly_rent": 7900,
+            "occupancy_type": "double_sharing",
+            "available_units": 1,
+            "description": "Quiet rooms with backup power.",
+            "amenities": ["wifi"],
+            "listing_status": "active",
+            "availability_status": "limited",
+        },
+        headers=headers,
+    )
+    listing_id = create_response.json()["id"]
+
+    response = client.patch(
+        f"/api/v1/owner/listings/{listing_id}/availability",
+        json={"availability_status": "available", "availability_note": "Two beds from Monday"},
+        headers=headers,
+    )
+
+    assert response.status_code == 200, response.text
+    payload = response.json()
+    assert payload["id"] == listing_id
+    assert payload["availability_status"] == "available"
+    assert payload["availability_note"] == "Two beds from Monday"
+
+
+def test_owner_update_availability_forbidden_for_user_role(tmp_path, monkeypatch):
+    client = _build_test_client(tmp_path, monkeypatch)
+    owner_headers = _owner_headers(client)
+    user_headers = _token_headers(client)
+
+    create_response = client.post(
+        "/api/v1/owner/listings",
+        json={
+            "pg_name": "Palm PG",
+            "city": "Hyderabad",
+            "area": "Hitech City",
+            "monthly_rent": 8400,
+            "occupancy_type": "double_sharing",
+            "available_units": 1,
+            "description": "Near offices with meals.",
+            "amenities": ["wifi", "meals"],
+            "listing_status": "active",
+            "availability_status": "available",
+        },
+        headers=owner_headers,
+    )
+    listing_id = create_response.json()["id"]
+
+    response = client.patch(
+        f"/api/v1/owner/listings/{listing_id}/availability",
+        json={"availability_status": "full"},
+        headers=user_headers,
+    )
+
+    assert response.status_code == 403
