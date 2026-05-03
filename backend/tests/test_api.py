@@ -673,3 +673,39 @@ def test_owner_listing_media_forbidden_for_user_role(tmp_path, monkeypatch):
 
     response = client.get(f"/api/v1/owner/listings/{listing_id}/media", headers=user_headers)
     assert response.status_code == 403
+
+
+def test_owner_listings_overview_returns_owner_scoped_items(tmp_path, monkeypatch):
+    client = _build_test_client(tmp_path, monkeypatch)
+    headers = _owner_headers(client)
+
+    create_response = client.post(
+        "/api/v1/owner/listings",
+        json={
+            "pg_name": "Overview PG",
+            "city": "Hyderabad",
+            "area": "Madhapur",
+            "monthly_rent": 9000,
+            "occupancy_type": "double_sharing",
+            "available_units": 2,
+            "description": "Created for overview listing test.",
+            "amenities": ["wifi"],
+            "listing_status": "active",
+            "availability_status": "available",
+        },
+        headers=headers,
+    )
+    created_id = create_response.json()["id"]
+
+    response = client.get("/api/v1/owner/listings?page=1&page_size=20", headers=headers)
+    assert response.status_code == 200
+    payload = response.json()
+    assert payload["pagination"]["total"] >= 1
+    assert any(item["id"] == created_id for item in payload["items"])
+
+
+def test_owner_listings_overview_forbidden_for_user_role(tmp_path, monkeypatch):
+    client = _build_test_client(tmp_path, monkeypatch)
+    user_headers = _token_headers(client)
+    response = client.get("/api/v1/owner/listings?page=1&page_size=20", headers=user_headers)
+    assert response.status_code == 403

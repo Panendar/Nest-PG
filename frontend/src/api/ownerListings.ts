@@ -25,6 +25,27 @@ export type OwnerListingCreateResponse = {
   created_at: string;
 };
 
+export type OwnerListingSummary = {
+  id: string;
+  pg_name: string;
+  city: string;
+  area: string;
+  monthly_rent: number;
+  listing_status: string;
+  availability_status: string;
+  updated_at: string;
+};
+
+export type OwnerListingsResponse = {
+  items: OwnerListingSummary[];
+  pagination: {
+    page: number;
+    page_size: number;
+    total: number;
+    total_pages: number;
+  };
+};
+
 export type OwnerListingDetail = {
   id: string;
   owner_id: string;
@@ -45,6 +66,22 @@ export type OwnerListingDetail = {
 
 export async function createOwnerListing(payload: OwnerListingCreatePayload): Promise<OwnerListingCreateResponse> {
   const response = await apiClient.post<OwnerListingCreateResponse>("/owner/listings", payload);
+  return response.data;
+}
+
+export async function listOwnerListings(params?: {
+  page?: number;
+  page_size?: number;
+  listing_status?: string;
+  availability_status?: string;
+}): Promise<OwnerListingsResponse> {
+  const query = new URLSearchParams();
+  if (params?.page) query.set("page", String(params.page));
+  if (params?.page_size) query.set("page_size", String(params.page_size));
+  if (params?.listing_status) query.set("listing_status", params.listing_status);
+  if (params?.availability_status) query.set("availability_status", params.availability_status);
+  const suffix = query.toString() ? `?${query.toString()}` : "";
+  const response = await apiClient.get<OwnerListingsResponse>(`/owner/listings${suffix}`);
   return response.data;
 }
 

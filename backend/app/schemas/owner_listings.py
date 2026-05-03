@@ -154,3 +154,26 @@ class OwnerListingUpdateResponse(BaseModel):
     amenities: list[str]
     listing_status: str
     updated_at: datetime
+
+
+class OwnerListingListItem(BaseModel):
+    id: str
+    pg_name: str
+    city: str
+    area: str
+    monthly_rent: int
+    listing_status: str
+    availability_status: str
+    updated_at: datetime
+
+
+class OwnerListingsPagination(BaseModel):
+    page: int
+    page_size: int
+    total: int
+    total_pages: int
+
+
+class OwnerListingListResponse(BaseModel):
+    items: list[OwnerListingListItem]
+    pagination: OwnerListingsPagination

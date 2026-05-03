@@ -3,7 +3,7 @@ from __future__ import annotations
 import json
 import uuid
 
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, Query, status
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
@@ -13,6 +13,7 @@ from app.db.session import get_db_session
 from app.schemas.owner_listings import OwnerListingCreateRequest, OwnerListingCreateResponse
 from app.schemas.owner_listings import OwnerListingAvailabilityUpdateRequest, OwnerListingAvailabilityUpdateResponse
 from app.schemas.owner_listings import OwnerListingDetailResponse, OwnerListingUpdateRequest, OwnerListingUpdateResponse
+from app.schemas.owner_listings import OwnerListingListResponse, OwnerListingListItem, OwnerListingsPagination
 
 
 router = APIRouter(prefix="/owner/listings", tags=["owner-listings"])
@@ -20,6 +21,50 @@ router = APIRouter(prefix="/owner/listings", tags=["owner-listings"])
 
 def _http_error(status_code: int, code: str, message: str) -> HTTPException:
     return HTTPException(status_code=status_code, detail={"code": code, "message": message})
+
+
+@router.get("", response_model=OwnerListingListResponse)
+def list_owner_listings(
+    current_user: dict = Depends(require_roles(["owner"])),
+    db: Session = Depends(get_db_session),
+    page: int = Query(default=1, ge=1),
+    page_size: int = Query(default=20, ge=1, le=50),
+    listing_status: str | None = Query(default=None),
+    availability_status: str | None = Query(default=None),
+) -> OwnerListingListResponse:
+    owner_id = str(current_user.get("sub", "")).strip()
+    if not owner_id:
+        raise _http_error(status.HTTP_401_UNAUTHORIZED, "UNAUTHORIZED", "Authentication required")
+
+    query = select(PgListing).where(PgListing.owner_id == owner_id, PgListing.deleted_at.is_(None))
+    if listing_status:
+        query = query.where(PgListing.listing_status == listing_status.strip().lower())
+    if availability_status:
+        query = query.where(PgListing.availability_status == availability_status.strip().lower())
+
+    all_items = list(db.scalars(query.order_by(PgListing.updated_at.desc())))
+    total = len(all_items)
+    total_pages = (total + page_size - 1) // page_size if total else 0
+    start = (page - 1) * page_size
+    end = start + page_size
+    page_items = all_items[start:end]
+
+    return OwnerListingListResponse(
+        items=[
+            OwnerListingListItem(
+                id=item.id,
+                pg_name=item.pg_name or item.title,
+                city=item.city,
+                area=item.area or "",
+                monthly_rent=item.monthly_rent or item.price,
+                listing_status=item.listing_status,
+                availability_status=item.availability_status,
+                updated_at=item.updated_at,
+            )
+            for item in page_items
+        ],
+        pagination=OwnerListingsPagination(page=page, page_size=page_size, total=total, total_pages=total_pages),
+    )
 
 
 @router.post("", response_model=OwnerListingCreateResponse, status_code=status.HTTP_201_CREATED)
