@@ -1,0 +1,17 @@
+{
+  "feature": "update-availability-status",
+  "mocks": [
+    {
+      "name": "Availability Update Panel",
+      "file": "mocks/update-availability-status-panel.txt"
+    },
+    {
+      "name": "Listing Management Screen",
+      "file": "mocks/update-availability-status-after-save.txt"
+    }
+  ],
+  "db_tables": [],
+  "api_endpoints": [],
+  "components": [],
+  "steps": []
+}

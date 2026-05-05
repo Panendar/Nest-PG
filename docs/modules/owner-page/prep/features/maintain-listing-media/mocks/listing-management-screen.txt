@@ -1,0 +1,23 @@
+SCREEN: Listing Management Screen (/owner/listings/{id})
+========================================================
+
+┌──────────────────────────────────────────────────────┐
+│ My_PG > Owner > Sri Sai Boys PG                     │
+├──────────────────────────────────────────────────────┤
+│ ✓ Photos updated                                     │
+│                                                      │
+│ Sri Sai Boys PG                                      │
+│ Madhapur, Hyderabad                                  │
+│                                                      │
+│ Media preview                                        │
+│ ┌──────────┐ ┌──────────┐ ┌──────────┐              │
+│ │ room-1   │ │ lobby    │ │ kitchen  │              │
+│ └──────────┘ └──────────┘ └──────────┘              │
+│                                                      │
+│ [Edit details] [Manage photos] [Update availability]│
+└──────────────────────────────────────────────────────┘
+
+NOTES:
+- Success toast/banner appears after add, replace, or remove completes.
+- [Manage photos] returns to media screen with latest saved set.
+- If listing fetch fails, show retry banner instead of stale preview.

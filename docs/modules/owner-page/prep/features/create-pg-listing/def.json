@@ -1,0 +1,21 @@
+{
+  "feature": "create-pg-listing",
+  "mocks": [
+    {
+      "name": "Owner Listings Overview",
+      "file": "mocks/create-pg-listing-overview.txt"
+    },
+    {
+      "name": "Create PG Listing Screen",
+      "file": "mocks/create-pg-listing-form.txt"
+    },
+    {
+      "name": "Listing Management Screen",
+      "file": "mocks/create-pg-listing-post-create-management.txt"
+    }
+  ],
+  "db_tables": [],
+  "api_endpoints": [],
+  "components": [],
+  "steps": []
+}

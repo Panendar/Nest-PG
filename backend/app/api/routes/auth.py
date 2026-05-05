@@ -30,8 +30,7 @@ def _create_token(payload: dict, expires_delta: timedelta) -> str:
     return jwt.encode(token_payload, settings.jwt_secret_key, algorithm=settings.jwt_algorithm)
 
 
-@router.post("/token", response_model=TokenResponse)
-def login(payload: TokenRequest, db: Session = Depends(get_db_session)) -> TokenResponse:
+def _login(payload: TokenRequest, db: Session) -> TokenResponse:
     user = db.scalar(select(User).where(User.email == payload.email, User.is_active.is_(True)))
     if not user or user.password_hash != _hash_password(payload.password):
         raise HTTPException(
@@ -52,6 +51,16 @@ def login(payload: TokenRequest, db: Session = Depends(get_db_session)) -> Token
         refresh_token=_create_token({**token_base, "token_use": "refresh"}, refresh_token_expires),
         expires_in=int(access_token_expires.total_seconds()),
     )
+
+
+@router.post("/login", response_model=TokenResponse)
+def login(payload: TokenRequest, db: Session = Depends(get_db_session)) -> TokenResponse:
+    return _login(payload, db)
+
+
+@router.post("/token", response_model=TokenResponse)
+def login_token_alias(payload: TokenRequest, db: Session = Depends(get_db_session)) -> TokenResponse:
+    return _login(payload, db)
 
 
 @router.post("/register", response_model=RegisterResponse, status_code=status.HTTP_201_CREATED)

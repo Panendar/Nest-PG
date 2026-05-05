@@ -1,0 +1,85 @@
+{
+  "table": "pg_listings",
+  "db": "sqlite",
+  "purpose": "Stores the core owner-managed PG listing data used to publish, update, and control listing availability.",
+  "important_fields": [
+    {
+      "name": "owner_id",
+      "type": "integer",
+      "note": "References the owning user account; only the owner can manage this listing."
+    },
+    {
+      "name": "pg_name",
+      "type": "text",
+      "note": "Required listing name shown to users; should remain concise and recognizable."
+    },
+    {
+      "name": "city",
+      "type": "text",
+      "note": "Required city used for discovery and location understanding."
+    },
+    {
+      "name": "area",
+      "type": "text",
+      "note": "Required locality or neighborhood to make the listing decision-useful."
+    },
+    {
+      "name": "monthly_rent",
+      "type": "numeric",
+      "note": "Required positive rent value used in listing evaluation."
+    },
+    {
+      "name": "occupancy_type",
+      "type": "text",
+      "note": "Describes sharing or room arrangement presented to users."
+    },
+    {
+      "name": "available_units",
+      "type": "integer",
+      "note": "Represents current available beds or rooms when the owner provides that detail."
+    },
+    {
+      "name": "description",
+      "type": "text",
+      "note": "Required descriptive summary used by users to assess the PG."
+    },
+    {
+      "name": "amenities_json",
+      "type": "text",
+      "note": "Stores the selected amenity set in a serialized form suitable for SQLite."
+    },
+    {
+      "name": "listing_status",
+      "type": "text",
+      "note": "Controls whether the record is active, draft-like, or otherwise not meant for discovery."
+    },
+    {
+      "name": "availability_status",
+      "type": "text",
+      "note": "Required current availability state shown during discovery."
+    },
+    {
+      "name": "availability_note",
+      "type": "text",
+      "note": "Optional owner-supplied note clarifying current availability."
+    },
+    {
+      "name": "deleted_at",
+      "type": "datetime",
+      "note": "Soft delete marker so listings can be hidden without immediate hard deletion."
+    }
+  ],
+  "relationships": [
+    {
+      "table": "users",
+      "type": "many-to-one",
+      "field": "owner_id",
+      "note": "Each listing belongs to one owner account."
+    }
+  ],
+  "notes": [
+    "A listing must not be considered discoverable unless it is active and not soft-deleted.",
+    "Availability is stored on the listing record because current scope only needs the latest state, not a separate history table.",
+    "This table is the parent record for listing media."
+  ]
+}

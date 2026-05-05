@@ -1,0 +1,18 @@
+SCREEN: Edit Listing Details Screen (/owner/listings/{id}/edit)
+================================================================
+
+┌────────────────────────────────────────────────────┐
+│ My_PG > Owner > Edit listing                        │
+├────────────────────────────────────────────────────┤
+│ PG name *      [Sri Sai Boys PG___________]       │
+│ City *         [Hyderabad__________________]       │
+│ Area *         [Madhapur___________________]       │
+│ Monthly rent * [8000]                              │
+│ Description *  [Updated room details________]      │
+│                                                    │
+│                    [Cancel] [Save changes]         │
+└────────────────────────────────────────────────────┘
+
+NOTES:
+- Form is prefilled with latest saved listing values.
+- Invalid fields show inline errors and block save.

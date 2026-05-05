@@ -24,6 +24,13 @@ function InterceptorBridge() {
           status: "error",
         });
       },
+      onApiError: (message) => {
+        showToast({
+          title: "Request failed",
+          description: message,
+          status: "error",
+        });
+      },
     });
   }, [logout, showToast, token]);
 

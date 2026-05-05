@@ -3,7 +3,7 @@ type AuthUser = {
   role: string;
 };
 
-const builderRoles = new Set(["builder", "owner", "pg_poster", "pg-poster"]);
+const ownerRoles = new Set(["owner"]);
 
 export function isBuilderUser(user: AuthUser | null | undefined): boolean {
   if (!user) {
@@ -13,9 +13,9 @@ export function isBuilderUser(user: AuthUser | null | undefined): boolean {
   const normalizedRole = user.role.trim().toLowerCase();
   const normalizedEmail = user.email.trim().toLowerCase();
 
-  return builderRoles.has(normalizedRole) || normalizedEmail.startsWith("owner-");
+  return ownerRoles.has(normalizedRole) || normalizedEmail.startsWith("owner-");
 }
 
 export function getHomePathForUser(user: AuthUser | null | undefined): string {
-  return isBuilderUser(user) ? "/owner" : "/app/search";
+  return isBuilderUser(user) ? "/owner/overview" : "/app/search";
 }

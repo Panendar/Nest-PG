@@ -1,0 +1,26 @@
+SCREEN: Manage Published Listings — Hub (owner area)
+======================================================
+
+┌────────────────────────────────────────────────────┐
+│ My_PG > Owner > My listings                        │
+├────────────────────────────────────────────────────┤
+│ Your published PGs                                  │
+│ 3 listings                                          │
+│                                                     │
+│ ┌────────────────────────────────────────────────┐ │
+│ │ Sri Sai Boys PG                                │ │
+│ │ Madhapur, Hyderabad · Available · Rs 7,500   │ │
+│ │ [Open listing]                                 │ │
+│ └────────────────────────────────────────────────┘ │
+│ ┌────────────────────────────────────────────────┐ │
+│ │ Green Nest PG                                  │ │
+│ │ Gachibowli, Hyderabad · Full · Rs 9,100        │ │
+│ │ [Open listing]                                 │ │
+│ └────────────────────────────────────────────────┘ │
+└────────────────────────────────────────────────────┘
+
+NOTES:
+- List shows only the signed-in owner’s listings.
+- Each row includes a name/title plus at least one secondary cue (area/city) and a clear open action.
+- Loading uses skeleton rows before content appears.
+- Optional filters (status, availability) appear above the list when product enables them.

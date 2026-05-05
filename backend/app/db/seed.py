@@ -45,19 +45,20 @@ def _ensure_listing(db, **listing_data) -> None:
 def seed_minimum_data() -> None:
     db = SessionLocal()
     try:
-        for role_name in ("admin", "user"):
+        for role_name in ("admin", "user", "owner"):
             existing_role = db.scalar(select(Role).where(Role.name == role_name))
             if not existing_role:
                 db.add(Role(id=str(uuid.uuid4()), name=role_name))
 
         _ensure_user(db, settings.default_user_email, settings.default_user_password, "user")
         _ensure_user(db, settings.default_admin_email, settings.default_admin_password, "admin")
+        _ensure_user(db, settings.default_owner_email, settings.default_owner_password, "owner")
 
-        owner_one = _ensure_user(db, "owner-1@example.com", "change-me", "user")
-        owner_two = _ensure_user(db, "owner-2@example.com", "change-me", "user")
-        owner_three = _ensure_user(db, "owner-3@example.com", "change-me", "user")
-        owner_four = _ensure_user(db, "owner-4@example.com", "change-me", "user")
-        owner_five = _ensure_user(db, "owner-5@example.com", "change-me", "user")
+        owner_one = _ensure_user(db, "owner-1@example.com", "change-me", "owner")
+        owner_two = _ensure_user(db, "owner-2@example.com", "change-me", "owner")
+        owner_three = _ensure_user(db, "owner-3@example.com", "change-me", "owner")
+        owner_four = _ensure_user(db, "owner-4@example.com", "change-me", "owner")
+        owner_five = _ensure_user(db, "owner-5@example.com", "change-me", "owner")
 
         _ensure_listing(
             db,

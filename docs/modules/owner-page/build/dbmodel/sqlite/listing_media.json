@@ -1,0 +1,55 @@
+{
+  "table": "listing_media",
+  "db": "sqlite",
+  "purpose": "Stores metadata and storage references for photos attached to owner listings.",
+  "important_fields": [
+    {
+      "name": "listing_id",
+      "type": "integer",
+      "note": "References the parent PG listing; media cannot exist without a listing."
+    },
+    {
+      "name": "storage_key",
+      "type": "text",
+      "note": "External object-storage reference used to locate the uploaded file."
+    },
+    {
+      "name": "file_url",
+      "type": "text",
+      "note": "Resolved access URL or path used to render the media in the application."
+    },
+    {
+      "name": "caption",
+      "type": "text",
+      "note": "Optional owner-supplied context for the image."
+    },
+    {
+      "name": "sort_order",
+      "type": "integer",
+      "note": "Controls display ordering of listing photos."
+    },
+    {
+      "name": "is_primary",
+      "type": "boolean",
+      "note": "Marks the main image used for listing previews."
+    },
+    {
+      "name": "deleted_at",
+      "type": "datetime",
+      "note": "Soft delete marker for recoverable media removal."
+    }
+  ],
+  "relationships": [
+    {
+      "table": "pg_listings",
+      "type": "many-to-one",
+      "field": "listing_id",
+      "note": "Each media item belongs to one listing."
+    }
+  ],
+  "notes": [
+    "The database stores metadata only; the actual file is kept in external storage.",
+    "At most one active media row per listing should be flagged as the primary image.",
+    "Soft-deleted media should not be shown in owner or user-facing listing views."
+  ]
+}

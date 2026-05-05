@@ -20,7 +20,7 @@ export type RegisterPayload = {
 };
 
 export async function loginWithCredentials(payload: { email: string; password: string }): Promise<AuthTokenResponse> {
-  const response = await apiClient.post<AuthTokenResponse>("/auth/token", payload);
+  const response = await apiClient.post<AuthTokenResponse>("/auth/login", payload);
   return response.data;
 }
 

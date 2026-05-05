@@ -36,16 +36,17 @@
 ### Deployment Steps
 
 #### 1. Database Migrations ✅
+
 - Executed all pending migrations (002-005) against staging SQLite database
 - All owner listing tables created with proper foreign keys and indexes
 - Soft-delete support enabled for listing_media items
 
 #### 2. Application Deployment ✅
+
 - **Backend:** FastAPI application running on `http://127.0.0.1:8000`
   - All 9 owner endpoints deployed and verified
   - Role-based access control enforced (owner-only routes)
   - Bearer token authentication active
-  
 - **Frontend:** React application built and deployed on `http://localhost:5174`
   - Production bundle generated (657.23 kB gzipped)
   - All 6 owner pages accessible and functional
@@ -54,6 +55,7 @@
 #### 3. Smoke Tests ✅
 
 **API Endpoints (All Responding):**
+
 - ✅ `POST /api/v1/owner/listings` — Create listing (201)
 - ✅ `GET /api/v1/owner/listings` — List owner's listings (200, paginated)
 - ✅ `GET /api/v1/owner/listings/{id}` — Get listing details (200)
@@ -65,6 +67,7 @@
 - ✅ `DELETE /api/v1/owner/listings/{id}/media/{media_id}` — Delete media (204)
 
 **UI Verification (All Pages Render):**
+
 - ✅ Login page — Owner authentication (owner-1@example.com / change-me)
 - ✅ OwnerListingsPage — Lists all owner's listings with status badges
 - ✅ OwnerCreateListingPage — Form with all fields, validation working
@@ -74,6 +77,7 @@
 - ✅ OwnerListingMediaPage — Media gallery with upload capability
 
 **Data Integrity:**
+
 - ✅ Create listing → appears in overview immediately
 - ✅ Update details → changes persist across page navigations
 - ✅ Update availability → status visible in listing cards
@@ -84,6 +88,7 @@
 **Not Required** — All smoke tests passed successfully. No issues detected.
 
 If rollback were needed:
+
 1. Revert to previous git commit: `git revert 81304d7`
 2. Reload backend API server
 3. Clear browser cache and reload frontend
@@ -91,18 +96,21 @@ If rollback were needed:
 ### Technical Details
 
 **Architecture:**
+
 - Backend: FastAPI 0.135 + SQLAlchemy 2.0 + SQLite 3
 - Frontend: React 19.2 + TypeScript 6.0 + Chakra UI 3
 - API: RESTful with JWT Bearer authentication
 - Database: SQLite with 5 migrations (initial + 4 owner-specific tables)
 
 **Security:**
+
 - Role-based access control (owner-only endpoints)
 - Bearer token validation on all protected routes
 - Ownership checks on listing operations
 - Multipart file upload with size limits (8MB)
 
 **Performance:**
+
 - Frontend bundle: 657.23 kB (gzip: 213.19 kB)
 - Database: Indexed for fast owner/city/status lookups
 - API response times: <100ms for all endpoints (local)
@@ -127,6 +135,7 @@ This is a **staging/development deployment** with local SQLite database and loca
 - ✅ Ready for production release (pending infrastructure setup)
 
 **Next Steps:**
+
 1. Configure production environment and infrastructure
 2. Run full integration tests against production-like environment
 3. Conduct user acceptance testing

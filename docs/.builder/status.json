@@ -201,26 +201,70 @@
       "stages": {
         "prep": {
           "requirements": {
-            "status": "not_started"
+            "status": "approved"
           },
           "user_flows": {
-            "status": "not_started"
+            "status": "approved"
           },
           "design_system": {
-            "status": "not_started"
+            "status": "approved"
           },
           "content": {
-            "status": "not_started"
+            "status": "approved"
           },
           "validation": {
-            "status": "not_started"
+            "status": "approved"
+          },
+          "module_md": {
+            "status": "approved"
           }
         },
         "build": {
           "foundation": {
-            "status": "not_started"
+            "status": "approved"
           },
-          "tranches": []
+          "tranches": [
+            {
+              "id": "t-001",
+              "name": "owner",
+              "features": [
+                "create-pg-listing",
+                "update-availability-status",
+                "update-listing-details",
+                "maintain-listing-media",
+                "manage-published-listings"
+              ],
+              "steps": {
+                "database": {
+                  "status": "approved"
+                },
+                "backend": {
+                  "status": "approved"
+                },
+                "frontend": {
+                  "status": "approved"
+                },
+                "testing": {
+                  "status": "approved"
+                }
+              },
+              "status": "complete"
+            }
+          ],
+          "tech_stack": {
+            "status": "approved"
+          },
+          "database": {
+            "status": "approved"
+          },
+          "api": {
+            "status": "approved"
+          },
+          "claude_md": {
+            "status": "approved"
+          },
+          "releases_unlocked": true,
+          "tranches_unlocked": true
         },
         "post": {
           "backup": {
@@ -246,7 +290,38 @@
           }
         }
       },
-      "features": []
+      "features": [
+        {
+          "slug": "create-pg-listing",
+          "name": "create-pg-listing",
+          "description": "Publish a new PG so it can appear in user search",
+          "priority": "HIGH"
+        },
+        {
+          "slug": "update-listing-details",
+          "name": "update-listing-details",
+          "description": "Edit text/fields so listing detail pages stay accurate",
+          "priority": "HIGH"
+        },
+        {
+          "slug": "maintain-listing-media",
+          "name": "maintain-listing-media",
+          "description": "Add/update photos or media so seekers can evaluate the PG",
+          "priority": "MEDIUM"
+        },
+        {
+          "slug": "update-availability-status",
+          "name": "update-availability-status",
+          "description": "Keep vacancy/current state honest so search and inquiry flows are not misleading",
+          "priority": "HIGH"
+        },
+        {
+          "slug": "manage-published-listings",
+          "name": "manage-published-listings",
+          "description": "One place to see all owned listings and jump to edit/media/availability",
+          "priority": "MEDIUM"
+        }
+      ]
     }
   ],
   "focus_module": "user",

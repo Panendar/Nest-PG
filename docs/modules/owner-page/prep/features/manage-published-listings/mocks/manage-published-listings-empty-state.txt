@@ -1,0 +1,21 @@
+SCREEN: Manage Published Listings — Empty state (owner area)
+==============================================================
+
+┌────────────────────────────────────────────────────┐
+│ My_PG > Owner > My listings                        │
+├────────────────────────────────────────────────────┤
+│ Your published PGs                                  │
+│                                                     │
+│         You don’t have any listings to manage yet.  │
+│                                                     │
+│   When you publish a PG, it will show up here so   │
+│   you can keep details, photos, and availability   │
+│   up to date.                                      │
+│                                                     │
+│              [Create a listing]  (if linked)       │
+│                                                     │
+└────────────────────────────────────────────────────┘
+
+NOTES:
+- Empty state is explicit: no fake cards or sample data.
+- Primary CTA to create a listing is optional wiring; hub still satisfies empty criteria without it if creation lives elsewhere.

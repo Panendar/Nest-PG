@@ -1,0 +1,17 @@
+{
+  "feature": "update-listing-details",
+  "mocks": [
+    {
+      "name": "Edit Listing Details Screen",
+      "file": "mocks/update-listing-details-edit-form.txt"
+    },
+    {
+      "name": "Listing Management Screen",
+      "file": "mocks/update-listing-details-after-save.txt"
+    }
+  ],
+  "db_tables": [],
+  "api_endpoints": [],
+  "components": [],
+  "steps": []
+}

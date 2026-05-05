@@ -1,0 +1,17 @@
+SCREEN: Owner Listings Overview (/owner/listings)
+=================================================
+
+┌────────────────────────────────────────────────────┐
+│ My_PG > Owner > My listings                        │
+├────────────────────────────────────────────────────┤
+│ Your listings                         [New listing]│
+│                                                    │
+│ ┌────────────────────────────────────────────────┐ │
+│ │ Sri Sai Boys PG                                │ │
+│ │ Madhapur, Hyderabad  [Manage]                  │ │
+│ └────────────────────────────────────────────────┘ │
+└────────────────────────────────────────────────────┘
+
+NOTES:
+- [New listing] opens Create PG Listing screen.
+- If owner has no listings, show empty state with same CTA.

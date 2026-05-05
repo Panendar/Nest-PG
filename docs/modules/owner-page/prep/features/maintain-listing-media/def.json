@@ -1,0 +1,21 @@
+{
+  "feature": "maintain-listing-media",
+  "mocks": [
+    {
+      "name": "Owner Listings Overview",
+      "file": "mocks/owner-listings-overview.txt"
+    },
+    {
+      "name": "Listing Media Management Screen",
+      "file": "mocks/listing-media-management-screen.txt"
+    },
+    {
+      "name": "Listing Management Screen",
+      "file": "mocks/listing-management-screen.txt"
+    }
+  ],
+  "db_tables": [],
+  "api_endpoints": [],
+  "components": [],
+  "steps": []
+}

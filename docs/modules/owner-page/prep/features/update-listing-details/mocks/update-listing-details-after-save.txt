@@ -1,0 +1,16 @@
+SCREEN: Listing Management Screen (/owner/listings/{id})
+=========================================================
+
+┌────────────────────────────────────────────────────┐
+│ My_PG > Owner > Sri Sai Boys PG                    │
+├────────────────────────────────────────────────────┤
+│ ✓ Details updated                                  │
+│                                                    │
+│ Sri Sai Boys PG · Madhapur, Hyderabad              │
+│ Rent: Rs 8,000                                     │
+│ [Edit details] [Manage photos] [Availability]      │
+└────────────────────────────────────────────────────┘
+
+NOTES:
+- Save confirmation appears as toast or banner.
+- If conflict occurs, show retry message and keep latest data.

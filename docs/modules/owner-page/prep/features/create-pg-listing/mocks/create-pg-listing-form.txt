@@ -1,0 +1,18 @@
+SCREEN: Create PG Listing Screen (/owner/listings/new)
+=======================================================
+
+┌────────────────────────────────────────────────────┐
+│ My_PG > Owner > New listing                        │
+├────────────────────────────────────────────────────┤
+│ PG name *      [Sri Sai Boys PG___________]       │
+│ City *         [Hyderabad__________________]       │
+│ Area *         [Madhapur___________________]       │
+│ Monthly rent * [7500]                              │
+│ Description *  [Near metro and IT offices____]    │
+│                                                    │
+│                    [Cancel] [Save listing]         │
+└────────────────────────────────────────────────────┘
+
+NOTES:
+- Required fields block save if missing or invalid.
+- Inline validation appears under fields when needed.

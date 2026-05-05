@@ -1,0 +1,3 @@
+table_name,purpose,important_fields
+pg_listings,"Stores the core owner-managed PG listing data used to publish, update, and control listing availability.","owner_id;pg_name;city;area;monthly_rent;occupancy_type;available_units;description;amenities_json;listing_status;availability_status;availability_note;deleted_at"
+listing_media,"Stores metadata and storage references for photos attached to owner listings.","listing_id;storage_key;file_url;caption;sort_order;is_primary;deleted_at"

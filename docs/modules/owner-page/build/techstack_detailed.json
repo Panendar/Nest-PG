@@ -1,0 +1,33 @@
+{
+  "module": "owner-page",
+  "frontend": {
+    "framework": "React 19.2",
+    "language": "TypeScript 6.0",
+    "styling": "Chakra UI styling system",
+    "components": "Chakra UI 3",
+    "state": "React Context + useState",
+    "forms": "react-hook-form 7 + zod 4",
+    "http": "axios 1.15",
+    "routing": "react-router-dom 7"
+  },
+  "backend": {
+    "framework": "FastAPI 0.135",
+    "language": "Python 3.13",
+    "orm": "SQLAlchemy 2.0",
+    "auth": "OAuth2PasswordBearer with JWT bearer tokens",
+    "validation": "Pydantic 2.12"
+  },
+  "database": {
+    "primary": "SQLite 3",
+    "migrations": "Alembic 1.18",
+    "cache": "none"
+  },
+  "hosting": {
+    "frontend": "Vercel",
+    "backend": "Azure App Service (Linux)",
+    "database": "SQLite file storage on backend persistent volume"
+  },
+  "integrations": {
+    "storage": "Azure Blob Storage for listing media"
+  }
+}

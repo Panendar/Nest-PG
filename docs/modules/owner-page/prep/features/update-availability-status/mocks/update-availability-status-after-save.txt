@@ -1,0 +1,16 @@
+SCREEN: Listing Management Screen (/owner/listings/{id})
+=========================================================
+
+┌────────────────────────────────────────────────────┐
+│ My_PG > Owner > Sri Sai Boys PG                    │
+├────────────────────────────────────────────────────┤
+│ ✓ Availability updated                             │
+│                                                    │
+│ Status: Available                                  │
+│ Note: One bed free from next week                  │
+│ [Change availability] [Back to listings]           │
+└────────────────────────────────────────────────────┘
+
+NOTES:
+- Updated status is used by user discovery after save.
+- Save failures show retry prompt and keep prior state.

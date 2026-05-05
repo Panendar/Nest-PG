@@ -1,0 +1,17 @@
+{
+  "feature": "manage-published-listings",
+  "mocks": [
+    {
+      "name": "Manage Published Listings Screen",
+      "file": "mocks/manage-published-listings-screen.txt"
+    },
+    {
+      "name": "Manage Published Listings Empty State",
+      "file": "mocks/manage-published-listings-empty-state.txt"
+    }
+  ],
+  "db_tables": [],
+  "api_endpoints": [],
+  "components": [],
+  "steps": []
+}

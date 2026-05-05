@@ -1,0 +1,22 @@
+SCREEN: Listing Media Management Screen (/owner/listings/{id}/media)
+=====================================================================
+
+┌──────────────────────────────────────────────────────┐
+│ My_PG > Owner > Sri Sai Boys PG > Media             │
+├──────────────────────────────────────────────────────┤
+│ Listing photos                         [Add photos] │
+│                                                      │
+│ ┌──────────────┐ ┌──────────────┐ ┌──────────────┐  │
+│ │ room-1.jpg   │ │ lobby.jpg    │ │ kitchen.jpg  │  │
+│ │ [Replace]    │ │ [Replace]    │ │ [Replace]    │  │
+│ │ [Remove]     │ │ [Remove]     │ │ [Remove]     │  │
+│ └──────────────┘ └──────────────┘ └──────────────┘  │
+│                                                      │
+│ Upload queue: 1 file                    [Retry all] │
+│ [IMG_4021.png] 56%                                   │
+└──────────────────────────────────────────────────────┘
+
+NOTES:
+- [Add photos] opens file picker for supported image types only.
+- Failed upload keeps existing photos unchanged and shows retry action.
+- Hover reveals quick actions if buttons are hidden on compact view.

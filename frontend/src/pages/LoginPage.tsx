@@ -1,9 +1,9 @@
-import axios from "axios";
 import { Alert, AlertIcon, Box, Button, Input, Link, Stack, Text } from "@chakra-ui/react";
 import { FormEvent, useState } from "react";
 import { Link as RouterLink, Navigate, useLocation, useNavigate } from "react-router-dom";
 
 import { loginWithCredentials, fetchCurrentUser } from "../api/auth";
+import { getApiErrorMessage } from "../api/client";
 import { AuthShell } from "../components/AuthShell";
 import { useAuth } from "../state/AuthContext";
 import { getHomePathForUser } from "../utils/authRouting";
@@ -35,11 +35,7 @@ export function LoginPage() {
       const nextPath = fromState?.from && fromState.from !== "/" && fromState.from !== "/login" ? fromState.from : fallbackPath;
       navigate(nextPath, { replace: true });
     } catch (error) {
-      const apiMessage = axios.isAxiosError(error)
-        ? (error.response?.data?.error?.message as string | undefined) ??
-          (error.response?.data?.detail?.message as string | undefined)
-        : undefined;
-      setErrorMessage(apiMessage || (error instanceof Error ? error.message : "Unable to sign in right now."));
+      setErrorMessage(getApiErrorMessage(error, "Unable to sign in right now."));
     } finally {
       setIsSubmitting(false);
     }

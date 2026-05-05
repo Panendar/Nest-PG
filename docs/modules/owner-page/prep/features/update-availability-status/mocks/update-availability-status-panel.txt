@@ -1,0 +1,18 @@
+SCREEN: Availability Update Panel (/owner/listings/{id}/availability)
+======================================================================
+
+┌────────────────────────────────────────────────────┐
+│ My_PG > Owner > Sri Sai Boys PG > Availability     │
+├────────────────────────────────────────────────────┤
+│ Availability status *                              │
+│ [Available ▾]                                      │
+│                                                    │
+│ Availability note (optional)                       │
+│ [One bed free from next week______________]        │
+│                                                    │
+│                  [Cancel] [Save availability]      │
+└────────────────────────────────────────────────────┘
+
+NOTES:
+- Dropdown contains allowed platform availability states only.
+- Existing status and note are prefilled on open.

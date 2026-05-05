@@ -1,0 +1,15 @@
+SCREEN: Listing Management Screen (/owner/listings/{id})
+=========================================================
+
+┌────────────────────────────────────────────────────┐
+│ My_PG > Owner > Sri Sai Boys PG                    │
+├────────────────────────────────────────────────────┤
+│ ✓ Listing created                                  │
+│                                                    │
+│ Sri Sai Boys PG · Madhapur, Hyderabad              │
+│ [Edit details] [Manage photos] [Availability]      │
+└────────────────────────────────────────────────────┘
+
+NOTES:
+- Confirmation appears after successful create.
+- Owner can continue into media and availability flows.

@@ -1,0 +1,24 @@
+SCREEN: Owner Listings Overview (/owner/listings)
+=================================================
+
+┌──────────────────────────────────────────────────────┐
+│ My_PG > Owner > My Listings                         │
+├──────────────────────────────────────────────────────┤
+│ Your listings                          [New listing]│
+│                                                      │
+│ ┌──────────────────────────────────────────────────┐ │
+│ │ Sri Sai Boys PG                                  │ │
+│ │ Madhapur, Hyderabad                               │ │
+│ │ Photos: 4   Availability: Available   [Manage]   │ │
+│ └──────────────────────────────────────────────────┘ │
+│ ┌──────────────────────────────────────────────────┐ │
+│ │ Green Nest PG                                    │ │
+│ │ Gachibowli, Hyderabad                             │ │
+│ │ Photos: 0   Availability: Full        [Manage]   │ │
+│ └──────────────────────────────────────────────────┘ │
+└──────────────────────────────────────────────────────┘
+
+NOTES:
+- [Manage] opens listing management where media can be edited.
+- Loading state uses skeleton cards before listing rows appear.
+- If no listings exist, show an empty-state block with [New listing].
