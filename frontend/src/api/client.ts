@@ -13,10 +13,23 @@ export const apiClient = axios.create({
   },
 });
 
+export function getApiErrorMessage(error: unknown, fallbackMessage = "Request failed. Please try again."): string {
+  if (!axios.isAxiosError(error)) {
+    return error instanceof Error ? error.message : fallbackMessage;
+  }
+
+  const responseMessage =
+    (error.response?.data?.error?.message as string | undefined) ??
+    (error.response?.data?.detail?.message as string | undefined);
+
+  return responseMessage || fallbackMessage;
+}
+
 type Handlers = {
   getToken: () => string | null;
   onUnauthorized: () => void;
   onNetworkError: () => void;
+  onApiError: (message: string) => void;
 };
 
 let interceptorsRegistered = false;
@@ -44,6 +57,8 @@ export function registerApiInterceptors(handlers: Handlers): void {
         currentHandlers?.onUnauthorized();
       } else if (!error.response) {
         currentHandlers?.onNetworkError();
+      } else if (error.response.status >= 500) {
+        currentHandlers?.onApiError(getApiErrorMessage(error, "Something went wrong on our side. Please try again."));
       }
       return Promise.reject(error);
     }
