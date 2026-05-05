@@ -9,7 +9,7 @@ from jose import JWTError, jwt
 from app.core.config import settings
 
 
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl=f"{settings.api_prefix}/auth/token")
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl=f"{settings.api_prefix}/auth/login")
 
 
 def _unauthorized(message: str = "Authentication required") -> HTTPException:
@@ -43,13 +43,20 @@ def require_current_user(token: str = Depends(oauth2_scheme)) -> dict:
 
 
 def require_roles(required_roles: Sequence[str]):
-    required = set(required_roles)
+    required = {role.strip().lower() for role in required_roles}
 
     def dependency(user: dict = Depends(require_current_user)) -> dict:
-        role = user.get("role")
-        if role not in required:
-            raise _forbidden()
-        return user
+        role = str(user.get("role", "")).strip().lower()
+        # Allow exact match
+        if role in required:
+            return user
+        # Role hierarchy: owners and admins can act as users
+        if "user" in required and role in {"owner", "admin"}:
+            return user
+        # Admins can act as owners for owner-scoped endpoints
+        if "owner" in required and role == "admin":
+            return user
+        raise _forbidden()
 
     return dependency
 
@@ -61,7 +68,7 @@ def _auth_error_response(status_code: int, code: str, message: str) -> JSONRespo
             "error": {
                 "code": code,
                 "message": message,
-                "details": {},
+                "details": [],
                 "request_id": str(uuid.uuid4()),
             }
         },
@@ -69,8 +76,12 @@ def _auth_error_response(status_code: int, code: str, message: str) -> JSONRespo
 
 
 class JWTAuthMiddleware:
-    def __init__(self, protected_prefixes: Sequence[str]):
+    def __init__(self, protected_prefixes: Sequence[str], role_prefixes: dict[str, Sequence[str]] | None = None):
         self.protected_prefixes = tuple(protected_prefixes)
+        self.role_prefixes = {
+            prefix: tuple(role.strip().lower() for role in roles)
+            for prefix, roles in (role_prefixes or {}).items()
+        }
 
     async def __call__(self, request: Request, call_next):
         if request.method == "OPTIONS":
@@ -97,9 +108,10 @@ class JWTAuthMiddleware:
 
             request.state.user = user
 
-            # Route-level role policy for admin endpoints.
-            if request.url.path.startswith("/api/v1/admin") and user.get("role") != "admin":
-                return _auth_error_response(status.HTTP_403_FORBIDDEN, "FORBIDDEN", "Insufficient role")
+            normalized_role = str(user.get("role", "")).strip().lower()
+            for prefix, allowed_roles in self.role_prefixes.items():
+                if request.url.path.startswith(prefix) and normalized_role not in allowed_roles:
+                    return _auth_error_response(status.HTTP_403_FORBIDDEN, "FORBIDDEN", "Insufficient role")
 
         response = await call_next(request)
         return response
