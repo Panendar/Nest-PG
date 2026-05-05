@@ -1,0 +1,19 @@
+[
+  {
+    "id": "v1-0",
+    "name": "owner_release",
+    "version": "1.0",
+    "notes": "Full owner listing management lifecycle: create, update details, manage availability, maintain media, view all listings. All 5 features implemented, tested (28/28 tests pass), and deployed to staging.",
+    "features": [
+      "update-listing-details",
+      "update-availability-status",
+      "create-pg-listing",
+      "maintain-listing-media",
+      "manage-published-listings"
+    ],
+    "bugs": [],
+    "status": "deployed",
+    "deployedAt": "2026-05-05T12:30:00Z",
+    "environment": "staging"
+  }
+]
